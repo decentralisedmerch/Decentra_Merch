@@ -1,0 +1,168 @@
+{
+  "implementation_summary": {
+    "timestamp": "2025-11-24T04:30:00Z",
+    "version": "2.0.0",
+    "status": "complete",
+    "features": [
+      "Client-driven Upload & Sign flow with wallet detection",
+      "Price fetching with frequency toggle",
+      "Enhanced UI with wallet selection and progress states"
+    ]
+  },
+  "files_changed": {
+    "server": [
+      "server/index.js - Added GET /price/:symbol endpoint with caching",
+      "server/routes/walrus.js - Added walrusPayload.type to create-publish-payload response",
+      "server/README.md - Updated with price endpoint documentation"
+    ],
+    "ui": [
+      "ui/index.html - Complete rewrite of wallet detection, Upload & Sign flow, price fetching, progress UI"
+    ],
+    "documentation": [
+      "TEST_WALRUS_SIGN.md - Comprehensive testing guide"
+    ]
+  },
+  "endpoints_added": {
+    "GET /price/:symbol": {
+      "description": "Fetch price for BTC, SUI, or WAL with 10s caching",
+      "input": "symbol (btc, sui, wal) in URL path",
+      "output": "{ symbol, price, cached: boolean, timestamp }",
+      "features": [
+        "Uses Coingecko API by default",
+        "10 second cache TTL",
+        "Fallback for WAL via WAL_PRICE_URL env var",
+        "Error handling for missing prices"
+      ]
+    }
+  },
+  "endpoints_updated": {
+    "POST /walrus/create-publish-payload": {
+      "change": "Added 'type' field to response",
+      "new_response": "{ ok: true, pkgId, walrusPayload, type: 'tx' | 'message' }",
+      "purpose": "Client uses this to determine which wallet signing method to call"
+    }
+  },
+  "client_features": {
+    "wallet_detection": {
+      "supported_wallets": [
+        "Slush (window.slush)",
+        "Sui Wallet (window.sui)",
+        "Suiet (window.suiet)",
+        "Nightly (window.nightly)",
+        "Phantom (window.phantom.sui)",
+        "Ethos (window.ethos)",
+        "Injected Sui (window.injectedSui)",
+        "Generic (window.suiWallet)"
+      ],
+      "ui": "Radio button list in modal, auto-selects first detected wallet"
+    },
+    "upload_sign_flow": {
+      "steps": [
+        "1. POST /walrus/prepare-and-initiate",
+        "2. POST /walrus/create-publish-payload",
+        "3. Detect payload.type and call appropriate wallet method",
+        "4. POST /walrus/submit-signed with signed payload",
+        "5. Display success with CID and portal link"
+      ],
+      "signing_logic": {
+        "if type === 'tx'": "Use signAndExecuteTransactionBlock or signTransaction",
+        "if type === 'message'": "Use signMessage, signData, or sign (in order)"
+      },
+      "progress_states": [
+        "Preparing package...",
+        "Payload ready...",
+        "Waiting for wallet...",
+        "Uploading...",
+        "Confirmed!"
+      ]
+    },
+    "price_fetching": {
+      "tokens": ["BTC", "SUI", "WAL"],
+      "frequency_toggle": "Bottom-right floating toggle: 30s / 5m",
+      "display": "Prices shown next to token names in dropdown, current price in input field",
+      "auto_update": "Updates price input when token selection changes"
+    },
+    "error_handling": {
+      "wallet_rejection": "Shows 'Retry Sign' and 'Download Zip & Manual Upload' buttons",
+      "upload_error": "Shows 'Retry' and 'Manual Upload' buttons",
+      "network_error": "Shows retry option with clear error message"
+    },
+    "security": {
+      "digest_verification": "Client verifies payload digest before signing (sanity check)",
+      "no_private_keys": "Wallet private keys never sent to server",
+      "payload_validation": "Server validates signed payload against stored payload"
+    }
+  },
+  "manual_test_commands": {
+    "1_start_server": "cd server && npm start",
+    "2_start_ui": "cd ui && python3 -m http.server 8080",
+    "3_test_price_endpoint": "curl http://localhost:4000/price/btc",
+    "4_test_price_sui": "curl http://localhost:4000/price/sui",
+    "5_test_price_wal": "curl http://localhost:4000/price/wal",
+    "6_create_snapshot": "curl -X POST http://localhost:4000/snapshot -H 'Content-Type: application/json' -d '{\"token\":\"btc\",\"price\":50000,\"timestamp\":\"2025-11-24T04:30:00Z\"}'",
+    "7_test_prepare": "curl -X POST http://localhost:4000/walrus/prepare-and-initiate -H 'Content-Type: application/json' -d '{\"snapshotId\":\"dev-xxxxx\",\"includeAudio\":false}'",
+    "8_test_payload": "curl -X POST http://localhost:4000/walrus/create-publish-payload -H 'Content-Type: application/json' -d '{\"pkgId\":\"<pkgId>\"}'"
+  },
+  "ui_test_steps": {
+    "1": "Open http://localhost:8080 in browser with Slush wallet installed",
+    "2": "Verify prices appear next to token names (BTC, SUI, WAL)",
+    "3": "Select BTC token - verify price auto-fills in price input",
+    "4": "Change fetch frequency toggle (30s / 5m) - verify prices update",
+    "5": "Take a snapshot",
+    "6": "Click 'Upload & Sign' button",
+    "7": "Verify wallet list shows Slush (or other detected wallets)",
+    "8": "Select Slush wallet",
+    "9": "Click 'Start Upload & Sign'",
+    "10": "Follow progress states and approve wallet prompts",
+    "11": "Verify Walrus CID appears with portal link",
+    "12": "Click 'Save to Snapshot' - verify CID appears on snapshot card"
+  },
+  "wallet_signing_methods": {
+    "transaction_signing": {
+      "methods": [
+        "signAndExecuteTransactionBlock (preferred)",
+        "signTransaction (fallback)"
+      ],
+      "triggered_when": "walrusPayload.type === 'tx'"
+    },
+    "message_signing": {
+      "methods": [
+        "signMessage (preferred)",
+        "signData (fallback)",
+        "sign (generic fallback)"
+      ],
+      "triggered_when": "walrusPayload.type === 'message' (default)"
+    }
+  },
+  "environment_variables": {
+    "PRICE_PROXY_URL": {
+      "default": "https://api.coingecko.com/api/v3/simple/price",
+      "description": "Upstream price API endpoint (Coingecko format)"
+    },
+    "WAL_PRICE_URL": {
+      "default": "null (no fallback)",
+      "description": "Custom endpoint for WAL price if not on Coingecko (must be different from /price/wal to avoid recursion)"
+    }
+  },
+  "testing_instructions": {
+    "quick_test": {
+      "1": "Start server: cd server && npm start",
+      "2": "Start UI: cd ui && python3 -m http.server 8080",
+      "3": "Open browser: http://localhost:8080",
+      "4": "Install Slush wallet extension",
+      "5": "Refresh page and verify wallet detected",
+      "6": "Take snapshot with BTC token",
+      "7": "Click 'Upload & Sign', select Slush, start flow",
+      "8": "Approve wallet connection and signing",
+      "9": "Verify success and CID display"
+    },
+    "check_logs": "tail -f server/logs/walrus_upload.log",
+    "check_prices": "curl http://localhost:4000/price/btc && curl http://localhost:4000/price/sui"
+  },
+  "known_limitations": {
+    "wal_price": "WAL may not be on Coingecko - requires WAL_PRICE_URL env var for custom upstream",
+    "wallet_compatibility": "Some wallets may require different signing method signatures - check console for errors",
+    "walrus_api": "Actual Walrus API endpoint/format may need adjustment based on real API behavior"
+  }
+}
+

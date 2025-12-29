@@ -1,0 +1,70 @@
+{
+  "backend": {
+    "pid": 99624,
+    "health": true
+  },
+  "ui": {
+    "url": "http://localhost:8080",
+    "running": true
+  },
+  "firmware": {
+    "build": true,
+    "upload": false,
+    "port": "/dev/cu.usbserial-2152DA2846"
+  },
+  "snapshot": {
+    "cid": "dev-2453c74df64c",
+    "snapshot_response": {
+      "status": "accepted",
+      "cid": "dev-2453c74df64c",
+      "digest": "2453c74df64ce029ab8e8aa1bc20a214e1980b42fdebf4925f4830f2411ae69e",
+      "sealProof": {
+        "cid": "dev-2453c74df64c",
+        "signature": "devsig",
+        "signerPubKey": "devkey"
+      },
+      "verified": false
+    }
+  },
+  "verify": {
+    "verify_response": {
+      "cid": "dev-2453c74df64c",
+      "valid": true
+    }
+  },
+  "serial_matches": {
+    "led": false,
+    "tone": false,
+    "alert": false,
+    "lines": []
+  },
+  "errors": [
+    "UserSideException: [Errno 35] Could not exclusively lock port /dev/cu.usbserial-2152DA2846: [Errno 35] Resource temporarily unavailable",
+    "Upload failed - port may be locked or device disconnected"
+  ],
+  "recommendation": "Backend is running. Firmware upload failed - device port may be locked or disconnected. Try: pkill -f 'pio|esptool' then retry upload. Device tests not detected - check serial connection and ensure device is powered on.",
+  "server_log_excerpt": [
+    "node:events:502",
+    "throw er; // Unhandled 'error' event",
+    "^",
+    "Error: listen EADDRINUSE: address already in use :::4000",
+    "at Server.setupListenHandle [as _listen2] (node:net:1908:16)",
+    "at listenInCluster (node:net:1965:12)",
+    "at Server.listen (node:net:2067:7)",
+    "at Function.listen (/Users/mukulisrani/Truth Signal Lite/server/node_modules/express/lib/application.js:635:24)",
+    "at file:///Users/mukulisrani/Truth%20Signal%20Lite/server/index.js:91:5",
+    "Emitted 'error' event on Server instance at:",
+    "at emitErrorNT (node:net:1944:8)",
+    "at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {",
+    "code: 'EADDRINUSE',",
+    "errno: -48,",
+    "syscall: 'listen',",
+    "address: '::',",
+    "port: 4000",
+    "}",
+    "Node.js v20.19.5"
+  ],
+  "serial_log_excerpt": [
+    "UserSideException: [Errno 35] Could not exclusively lock port /dev/cu.usbserial-2152DA2846: [Errno 35] Resource temporarily unavailable"
+  ]
+}

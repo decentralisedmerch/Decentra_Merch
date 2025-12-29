@@ -1,0 +1,8 @@
+{
+  "name": "truthsignal-walrus-adapter",
+  "version": "0.1.0",
+  "description": "Walrus seal adapter package for TruthSignal demo. Replace placeholders before publishing.",
+  "mainnet_ready": false,
+  "notes": "Replace WALRUS_WALLET_URL and sign/deploy from your wallet. The deploy script expects a connected wallet CLI or browser plugin."
+}
+

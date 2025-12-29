@@ -1,0 +1,30 @@
+{
+  "backend": {
+    "pid": BACKEND_PID_PLACEHOLDER,
+    "health": true
+  },
+  "ui": {
+    "url": "http://localhost:8080",
+    "running": true
+  },
+  "firmware": {
+    "build": true,
+    "upload": UPLOAD_SUCCESS_PLACEHOLDER,
+    "port": "DEVICE_PORT_PLACEHOLDER"
+  },
+  "snapshot": {
+    "cid": "CID_PLACEHOLDER",
+    "snapshot_response": SNAP_OUT_PLACEHOLDER
+  },
+  "verify": {
+    "verify_response": VERIFY_OUT_PLACEHOLDER
+  },
+  "serial_matches": {
+    "led": LED_MATCH_PLACEHOLDER,
+    "tone": TONE_MATCH_PLACEHOLDER,
+    "alert": ALERT_MATCH_PLACEHOLDER,
+    "lines": MATCHING_LINES_PLACEHOLDER
+  },
+  "errors": ERRORS_PLACEHOLDER,
+  "recommendation": "RECOMMENDATION_PLACEHOLDER"
+}

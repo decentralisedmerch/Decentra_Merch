@@ -1,0 +1,10 @@
+{
+  "network": "testnet",
+  "fullnodeUrl": "https://fullnode.testnet.sui.io:443",
+  "packageId": "0xe429a53292b70a1a30bc4a6449a432a89da4daad95a959f261cc236067252d77",
+  "registryId": "0xc46184e29012b22553801aaa410acffa9ecfed2374d3b3d0d515d05292a859ea",
+  "registryInitialVersion": "349181008",
+  "publisher": "0x4b455000a933718e93d9b0b0e00e56d214c281b5c446224780dba56eacc93e32",
+  "lastUpdated": "2025-11-26T07:28:00Z",
+  "notes": "TruthSignal walrus registry deployed via CLI (wallet blissful-spinel)"
+}

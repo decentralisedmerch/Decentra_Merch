@@ -1,0 +1,28 @@
+TruthSignal backend running on port 4000
+HTTP server listening on 4000
+MQTT connected: mqtt://test.mosquitto.org
+MQTT sent: {
+  cid: 'dev-9d4ff20cc91c',
+  verified: true,
+  ts: '2025-11-23T22:14:10.262Z'
+}
+MQTT sent: {
+  cid: 'dev-9d4ff20cc91c',
+  verified: true,
+  ts: '2025-11-23T22:14:36.738Z'
+}
+MQTT sent: {
+  cid: 'dev-9d4ff20cc91c',
+  verified: true,
+  ts: '2025-11-23T22:15:07.953Z'
+}
+MQTT sent: {
+  cid: 'dev-9d4ff20cc91c',
+  verified: true,
+  ts: '2025-11-23T22:15:20.423Z'
+}
+MQTT sent: {
+  cid: 'dev-9d4ff20cc91c',
+  verified: true,
+  ts: '2025-11-23T22:19:48.442Z'
+}

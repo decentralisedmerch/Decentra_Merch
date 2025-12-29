@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "backendTopic": "truthsignal/device/ATOM-1/notify",
+  "firmwareTopic": "truthsignal/device/ATOM-1/notify",
+  "mqttBroker": "test.mosquitto.org",
+  "sampleCurlSnapshot": "curl -X POST http://localhost:4000/snapshot -H 'Content-Type: application/json' -d '{\"token\":\"sui\",\"price\":20.00,\"timestamp\":\"2025-11-23T19:17:20Z\"}'",
+  "sampleCurlVerify": "curl -X POST http://localhost:4000/verify -H 'Content-Type: application/json' -d '{\"cid\":\"dev-b6ecf218d4dc\",\"sealProof\":{\"cid\":\"dev-b6ecf218d4dc\",\"signature\":\"devsig\",\"signerPubKey\":\"devkey\"}}'",
+  "serialPort": "/dev/cu.usbserial-5D52020846",
+  "serialOutputExcerpt": "Serial port detected but not readable via direct cat. Use PlatformIO serial monitor (pio device monitor) or 'screen /dev/cu.usbserial-5D52020846 115200' to view device logs. Expected output: dots during WiFi connection, 'WiFi connected', 'MQTT connected', 'Subscribed to: truthsignal/device/ATOM-1/notify', and 'MQTT message received: {...}' when verification messages arrive.",
+  "recommendedFixes": [
+    "Use PlatformIO serial monitor: 'cd firmware && pio device monitor' or 'screen /dev/cu.usbserial-5D52020846 115200' to view device logs and confirm MQTT subscription and message reception",
+    "Verify device WiFi credentials match network (currently: SSID='Kashatora', PASS='1234@4321'). Update firmware/src/main.cpp WIFI_SSID/WIFI_PASS if device cannot connect to WiFi",
+    "Rebuild and upload firmware with added debug logs (already added: MQTT connection status, subscription confirmation, and message reception logs). After upload, trigger verification via curl and watch serial monitor for 'MQTT message received' and 'Triggering blink/beep' messages"
+  ],
+  "codeChangesApplied": [
+    "Added Serial.println() debug logs in firmware reconnect() function to show MQTT connection and subscription status",
+    "Added Serial.println() debug logs in firmware callback() function to show received messages and blink/beep triggers"
+  ],
+  "testResults": {
+    "backendRunning": true,
+    "backendPort": 4000,
+    "topicsMatch": true,
+    "mqttPublishTest": "SUCCESS - Messages published and received via test subscriber",
+    "mqttBrokerReachable": true,
+    "deviceSerialPortDetected": true,
+    "deviceSerialReadable": false,
+    "firmwareDebugLogsAdded": true
+  }
+}

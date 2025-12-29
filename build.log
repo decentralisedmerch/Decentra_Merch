@@ -1,0 +1,296 @@
+Processing m5stack-atom (platform: espressif32; board: m5stack-atom; framework: arduino; monitor_speed: 115200; lib_deps: knolleary/PubSubClient@^2.8, fastled/FastLED@^3.6.0)
+--------------------------------------------------------------------------------
+CONFIGURATION: https://docs.platformio.org/page/boards/espressif32/m5stack-atom.html
+PLATFORM: Espressif 32 (6.12.0) > M5Stack-ATOM
+HARDWARE: ESP32 240MHz, 320KB RAM, 4MB Flash
+DEBUG: Current (cmsis-dap) External (cmsis-dap, esp-bridge, esp-prog, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa)
+PACKAGES: 
+ - framework-arduinoespressif32 @ 3.20017.241212+sha.dcc1105b 
+ - tool-esptoolpy @ 2.40900.250804 (4.9.0) 
+ - toolchain-xtensa-esp32 @ 8.4.0+2021r2-patch5
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 35 compatible libraries
+Scanning dependencies...
+Dependency Graph
+|-- PubSubClient @ 2.8.0 (License: Unknown, Path: /Users/mukulisrani/Truth Signal Lite/firmware/.pio/libdeps/m5stack-atom/PubSubClient)
+|-- FastLED @ 3.10.3 (License: MIT, Path: /Users/mukulisrani/Truth Signal Lite/firmware/.pio/libdeps/m5stack-atom/FastLED)
+|   |-- SPI @ 2.0.0 (License: Unknown, Path: /Users/mukulisrani/.platformio/packages/framework-arduinoespressif32/libraries/SPI)
+|   |-- I2S @ 1.0 (License: Unknown, Path: /Users/mukulisrani/.platformio/packages/framework-arduinoespressif32/libraries/I2S)
+|   |-- SD @ 2.0.0 (License: Unknown, Path: /Users/mukulisrani/.platformio/packages/framework-arduinoespressif32/libraries/SD)
+|   |   |-- FS @ 2.0.0 (License: Unknown, Path: /Users/mukulisrani/.platformio/packages/framework-arduinoespressif32/libraries/FS)
+|   |   |-- SPI @ 2.0.0 (License: Unknown, Path: /Users/mukulisrani/.platformio/packages/framework-arduinoespressif32/libraries/SPI)
+|-- WiFi @ 2.0.0 (License: Unknown, Path: /Users/mukulisrani/.platformio/packages/framework-arduinoespressif32/libraries/WiFi)
+Building in release mode
+<lambda>(["checkprogsize"], [".pio/build/m5stack-atom/firmware.elf"])
+MethodWrapper(["checkprogsize"], [".pio/build/m5stack-atom/firmware.elf"])
+Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+RAM:   [=         ]  14.0% (used 45848 bytes from 327680 bytes)
+Flash: [======    ]  60.9% (used 797769 bytes from 1310720 bytes)
+.pio/build/m5stack-atom/firmware.elf  :
+section                                                                                                                                                                   size         addr
+.rtc.text                                                                                                                                                                    0   1074528256
+.rtc.dummy                                                                                                                                                                   0   1073217536
+.rtc.force_fast                                                                                                                                                              0   1073217536
+.rtc_noinit                                                                                                                                                                 16   1342177792
+.rtc.force_slow                                                                                                                                                              0   1342177808
+.iram0.vectors                                                                                                                                                            1027   1074266112
+.iram0.text                                                                                                                                                              78679   1074267140
+.dram0.data                                                                                                                                                              24640   1073470304
+.ext_ram_noinit                                                                                                                                                              0   1065353216
+.noinit                                                                                                                                                                      0   1073494944
+.ext_ram.bss                                                                                                                                                                 0   1065353216
+.dram0.bss                                                                                                                                                               21208   1073494944
+.flash.appdesc                                                                                                                                                             256   1061158944
+.flash.rodata                                                                                                                                                           120336   1061159200
+.flash.rodata_noload                                                                                                                                                     15854   1061279536
+.flash.text                                                                                                                                                             573087   1074593824
+.phyiram.0                                                                                                                                                                  43   1075166912
+.phyiram.1                                                                                                                                                                 125   1075166956
+.phyiram.2                                                                                                                                                                 542   1075167084
+.phyiram.3                                                                                                                                                                 178   1075167628
+.phyiram.6                                                                                                                                                                 222   1075167808
+.phyiram.4                                                                                                                                                                 234   1075168032
+.phyiram.7                                                                                                                                                                 228   1075168268
+.phyiram.8                                                                                                                                                                 547   1075168496
+.phyiram.9                                                                                                                                                                 387   1075169044
+.phyiram.10                                                                                                                                                                142   1075169432
+.phyiram.13                                                                                                                                                                392   1075169576
+.phyiram.15                                                                                                                                                                186   1075169968
+.phyiram.14                                                                                                                                                                239   1075170156
+.phyiram.16                                                                                                                                                                459   1075170396
+.phyiram.18                                                                                                                                                                114   1075170856
+.phyiram.12                                                                                                                                                                120   1075170972
+.phyiram.17                                                                                                                                                                238   1075171092
+.phyiram.24                                                                                                                                                                 74   1075171332
+.phyiram.25                                                                                                                                                                 49   1075171408
+.phyiram.26                                                                                                                                                                259   1075171460
+.phyiram.27                                                                                                                                                                135   1075171720
+.phyiram.22                                                                                                                                                                 97   1075171856
+.phyiram.20                                                                                                                                                                270   1075171956
+.phyiram.21                                                                                                                                                                158   1075172228
+.phyiram.19                                                                                                                                                                735   1075172388
+.iram0.text_end                                                                                                                                                              1   1074345819
+.iram0.data                                                                                                                                                                  0   1074345820
+.iram0.bss                                                                                                                                                                   0   1074345820
+.dram0.heap_start                                                                                                                                                            0   1073516152
+.xt.prop                                                                                                                                                                476352            0
+.xt.lit                                                                                                                                                                  15896            0
+.xtensa.info                                                                                                                                                                56            0
+.comment                                                                                                                                                                   282            0
+.xt.lit._ZN19ClocklessControllerILi27ELi72ELi72ELi144ELN2fl6EOrderE66ELi0ELb0ELi5EE10showPixelsER15PixelControllerILS1_66ELi1ELj4294967295EE                                 8            0
+.xt.lit._ZN2fl21PixelControllerVtableI15PixelControllerILNS_6EOrderE66ELi1ELj4294967295EEE16loadAndScaleRGBWEPvNS_4RgbwEPhS7_S7_S7_                                          8            0
+.xt.lit._ZN14CLEDController9clearLedsEi                                                                                                                                      0            0
+.xt.lit._ZN19ClocklessControllerILi27ELi72ELi72ELi144ELN2fl6EOrderE66ELi0ELb0ELi5EED5Ev                                                                                      8            0
+.xt.lit._ZN16SK6812ControllerILh27ELN2fl6EOrderE66EED5Ev                                                                                                                     8            0
+.xt.lit._ZN6SK6812ILh27ELN2fl6EOrderE66EED5Ev                                                                                                                                8            0
+.xt.lit._ZN8CFastLED7addLedsI6SK6812Lh27ELN2fl6EOrderE66EEER14CLEDControllerP4CRGBii                                                                                         8            0
+.xt.lit._ZN8CFastLED4showEv                                                                                                                                                  0            0
+.xt.lit._ZN15PixelControllerILN2fl6EOrderE66ELi1ELj4294967295EE21init_binary_ditheringEv                                                                                     8            0
+.xt.lit._ZN19CPixelLEDControllerILN2fl6EOrderE66ELi1ELj4294967295EE4showEPK4CRGBih                                                                                           0            0
+.xt.lit._ZN19CPixelLEDControllerILN2fl6EOrderE66ELi1ELj4294967295EE9showColorERK4CRGBih                                                                                      0            0
+.xt.prop._ZN19ClocklessControllerILi27ELi72ELi72ELi144ELN2fl6EOrderE66ELi0ELb0ELi5EE10showPixelsER15PixelControllerILS1_66ELi1ELj4294967295EE                               48            0
+.xt.prop._ZN2fl21PixelControllerVtableI15PixelControllerILNS_6EOrderE66ELi1ELj4294967295EEE16loadAndScaleRGBWEPvNS_4RgbwEPhS7_S7_S7_                                       144            0
+.xt.prop._ZN14CLEDController9clearLedsEi                                                                                                                                    36            0
+.xt.prop._ZN19ClocklessControllerILi27ELi72ELi72ELi144ELN2fl6EOrderE66ELi0ELb0ELi5EED5Ev                                                                                    12            0
+.xt.prop._ZN16SK6812ControllerILh27ELN2fl6EOrderE66EED5Ev                                                                                                                   12            0
+.xt.prop._ZN6SK6812ILh27ELN2fl6EOrderE66EED5Ev                                                                                                                              12            0
+.xt.prop._ZN8CFastLED7addLedsI6SK6812Lh27ELN2fl6EOrderE66EEER14CLEDControllerP4CRGBii                                                                                      120            0
+.xt.prop._ZN8CFastLED4showEv                                                                                                                                                36            0
+.xt.prop._ZN15PixelControllerILN2fl6EOrderE66ELi1ELj4294967295EE21init_binary_ditheringEv                                                                                  108            0
+.xt.prop._ZN19CPixelLEDControllerILN2fl6EOrderE66ELi1ELj4294967295EE4showEPK4CRGBih                                                                                         72            0
+.xt.prop._ZN19CPixelLEDControllerILN2fl6EOrderE66ELi1ELj4294967295EE9showColorERK4CRGBih                                                                                    60            0
+.xt.prop._ZN14CLEDController4sizeEv                                                                                                                                         36            0
+.xt.prop._ZN14CLEDController13beginShowLedsEi                                                                                                                               36            0
+.xt.prop._ZN14CLEDController11endShowLedsEPv                                                                                                                                36            0
+.xt.prop._ZNK14CLEDController17getMaxRefreshRateEv                                                                                                                          36            0
+.xt.prop._ZNSt17_Function_handlerIFvPcPhjEPS2_E9_M_invokeERKSt9_Any_dataOS0_OS1_Oj                                                                                          36            0
+.xt.prop._ZNSt14_Function_base13_Base_managerIPFvPcPhjEE10_M_managerERSt9_Any_dataRKS6_St18_Manager_operation                                                               60            0
+.xt.prop._ZN19ClocklessControllerILi27ELi72ELi72ELi144ELN2fl6EOrderE66ELi0ELb0ELi5EE4initEv                                                                                 36            0
+.xt.prop._ZN19CPixelLEDControllerILN2fl6EOrderE66ELi1ELj4294967295EE5lanesEv                                                                                                36            0
+.xt.prop._ZNK19ClocklessControllerILi27ELi72ELi72ELi144ELN2fl6EOrderE66ELi0ELb0ELi5EE17getMaxRefreshRateEv                                                                  36            0
+.xt.prop._ZN2fl21PixelControllerVtableI15PixelControllerILNS_6EOrderE66ELi1ELj4294967295EEE15loadAndScaleRGBEPvPhS6_S6_                                                     36            0
+.xt.prop._ZN2fl21PixelControllerVtableI15PixelControllerILNS_6EOrderE66ELi1ELj4294967295EEE22loadAndScale_WS2816_HDEPvPtS6_S6_                                             156            0
+.xt.prop._ZN2fl21PixelControllerVtableI15PixelControllerILNS_6EOrderE66ELi1ELj4294967295EEE13stepDitheringEPv                                                               36            0
+.xt.prop._ZN2fl21PixelControllerVtableI15PixelControllerILNS_6EOrderE66ELi1ELj4294967295EEE11advanceDataEPv                                                                 36            0
+.xt.prop._ZN2fl21PixelControllerVtableI15PixelControllerILNS_6EOrderE66ELi1ELj4294967295EEE4sizeEPv                                                                         36            0
+.xt.prop._ZN2fl21PixelControllerVtableI15PixelControllerILNS_6EOrderE66ELi1ELj4294967295EEE3hasEPvi                                                                         36            0
+.xt.prop._ZN2fl21PixelControllerVtableI15PixelControllerILNS_6EOrderE66ELi1ELj4294967295EEE10getHdScaleEPvPhS6_S6_S6_                                                       36            0
+.xt.prop._ZN14CLEDController8showLedsEh                                                                                                                                     36            0
+.xt.prop._ZN19ClocklessControllerILi27ELi72ELi72ELi144ELN2fl6EOrderE66ELi0ELb0ELi5EED2Ev                                                                                    36            0
+.xt.prop._ZN19ClocklessControllerILi27ELi72ELi72ELi144ELN2fl6EOrderE66ELi0ELb0ELi5EED0Ev                                                                                    36            0
+.xt.prop._ZN16SK6812ControllerILh27ELN2fl6EOrderE66EED2Ev                                                                                                                   36            0
+.xt.prop._ZN16SK6812ControllerILh27ELN2fl6EOrderE66EED0Ev                                                                                                                   36            0
+.xt.prop._ZN6SK6812ILh27ELN2fl6EOrderE66EED2Ev                                                                                                                              36            0
+.xt.prop.__tcf_1                                                                                                                                                            72            0
+.xt.prop._ZN6SK6812ILh27ELN2fl6EOrderE66EED0Ev                                                                                                                              36            0
+.xt.prop._ZNSt14_Function_baseD2Ev                                                                                                                                          36            0
+.xt.prop._ZTV19CPixelLEDControllerILN2fl6EOrderE66ELi1ELj4294967295EE                                                                                                       12            0
+.xt.prop._ZTV19ClocklessControllerILi27ELi72ELi72ELi144ELN2fl6EOrderE66ELi0ELb0ELi5EE                                                                                       12            0
+.xt.prop._ZTV16SK6812ControllerILh27ELN2fl6EOrderE66EE                                                                                                                      12            0
+.xt.prop._ZTV6SK6812ILh27ELN2fl6EOrderE66EE                                                                                                                                 12            0
+.xt.prop._ZGVZN8CFastLED7addLedsI6SK6812Lh27ELN2fl6EOrderE66EEER14CLEDControllerP4CRGBiiE1c                                                                                 12            0
+.xt.prop._ZZN8CFastLED7addLedsI6SK6812Lh27ELN2fl6EOrderE66EEER14CLEDControllerP4CRGBiiE1c                                                                                   12            0
+.xt.lit._ZNSt8functionIFvPcPhjEEC5ERKS3_                                                                                                                                     0            0
+.xt.lit._ZNSt8functionIFvPcPhjEEaSERKS3_                                                                                                                                     0            0
+.xt.prop._ZNSt8functionIFvPcPhjEEC5ERKS3_                                                                                                                                    0            0
+.xt.prop._ZNSt8functionIFvPcPhjEEaSERKS3_                                                                                                                                   48            0
+.xt.prop._ZN5Print17availableForWriteEv                                                                                                                                     36            0
+.xt.prop._ZN5Print5flushEv                                                                                                                                                  36            0
+.xt.prop._ZNSt8functionIFvPcPhjEEC2ERKS3_                                                                                                                                   60            0
+.xt.prop._ZTV12PubSubClient                                                                                                                                                 12            0
+.xt.lit._ZN2fl12EngineEvents10onEndFrameEv                                                                                                                                   0            0
+.xt.prop._ZN2fl12EngineEvents10onEndFrameEv                                                                                                                                 36            0
+.xt.prop._ZN14CLEDController5lanesEv                                                                                                                                        36            0
+.xt.prop._ZTV14CLEDController                                                                                                                                               12            0
+.xt.lit._ZN2fl9SingletonINS_12EngineEventsELi0EE8instanceEv                                                                                                                  8            0
+.xt.lit._ZN2fl10HeapVectorINS_12EngineEvents4PairENS_9allocatorIS2_EEED5Ev                                                                                                   0            0
+.xt.lit._ZN2fl13InlinedVectorINS_12EngineEvents4PairELj16EE3endEv                                                                                                            8            0
+.xt.lit._ZN2fl13InlinedVectorINS_12EngineEvents4PairELj16EED5Ev                                                                                                              8            0
+.xt.lit._ZN2fl10HeapVectorINS_12EngineEvents4PairENS_9allocatorIS2_EEE11ensure_sizeEj                                                                                        0            0
+.xt.lit._ZN2fl10HeapVectorINS_12EngineEvents4PairENS_9allocatorIS2_EEE7reserveEj                                                                                             0            0
+.xt.lit._ZN2fl10HeapVectorINS_12EngineEvents4PairENS_9allocatorIS2_EEE9push_backERKS2_                                                                                       0            0
+.xt.lit._ZN2fl13InlinedVectorINS_12EngineEvents4PairELj16EEC5ERKS3_                                                                                                          8            0
+.xt.prop._ZN2fl9SingletonINS_12EngineEventsELi0EE8instanceEv                                                                                                                48            0
+.xt.prop._ZN2fl10HeapVectorINS_12EngineEvents4PairENS_9allocatorIS2_EEED5Ev                                                                                                  0            0
+.xt.prop._ZN2fl13InlinedVectorINS_12EngineEvents4PairELj16EE3endEv                                                                                                          72            0
+.xt.prop._ZN2fl13InlinedVectorINS_12EngineEvents4PairELj16EED5Ev                                                                                                            12            0
+.xt.prop._ZN2fl10HeapVectorINS_12EngineEvents4PairENS_9allocatorIS2_EEE11ensure_sizeEj                                                                                      72            0
+.xt.prop._ZN2fl10HeapVectorINS_12EngineEvents4PairENS_9allocatorIS2_EEE7reserveEj                                                                                           48            0
+.xt.prop._ZN2fl10HeapVectorINS_12EngineEvents4PairENS_9allocatorIS2_EEE9push_backERKS2_                                                                                     48            0
+.xt.prop._ZN2fl13InlinedVectorINS_12EngineEvents4PairELj16EEC5ERKS3_                                                                                                        12            0
+.xt.prop._ZN2fl10HeapVectorINS_12EngineEvents4PairENS_9allocatorIS2_EEED2Ev                                                                                                 36            0
+.xt.prop._ZN2fl10HeapVectorINS_12EngineEvents4PairENS_9allocatorIS2_EEE3endEv                                                                                               48            0
+.xt.prop._ZN2fl11FixedVectorINS_12EngineEvents4PairELj16EE3endEv                                                                                                            36            0
+.xt.prop._ZN2fl11FixedVectorINS_12EngineEvents4PairELj16EE5clearEv                                                                                                          60            0
+.xt.prop._ZN2fl13InlinedVectorINS_12EngineEvents4PairELj16EED2Ev                                                                                                            36            0
+.xt.prop._ZN2fl11FixedVectorINS_12EngineEvents4PairELj16EE9push_backERKS2_                                                                                                  36            0
+.xt.prop._ZN2fl13InlinedVectorINS_12EngineEvents4PairELj16EEC2ERKS3_                                                                                                       156            0
+.xt.prop._ZGVZN2fl9SingletonINS_12EngineEventsELi0EE8instanceEvE8instance                                                                                                   12            0
+.xt.prop._ZZN2fl9SingletonINS_12EngineEventsELi0EE8instanceEvE8instance                                                                                                     12            0
+.xt.prop._ZN2fl13PixelIterator3hasEi                                                                                                                                        36            0
+.xt.prop._ZN2fl13PixelIterator13stepDitheringEv                                                                                                                             36            0
+.xt.prop._ZN2fl13PixelIterator11advanceDataEv                                                                                                                               36            0
+.xt.lit._ZNSt15_Sp_counted_ptrIP22WiFiClientSocketHandleLN9__gnu_cxx12_Lock_policyE2EED5Ev                                                                                   0            0
+.xt.lit._ZNSt15_Sp_counted_ptrIP22WiFiClientSocketHandleLN9__gnu_cxx12_Lock_policyE2EE10_M_destroyEv                                                                         0            0
+.xt.lit._ZNSt15_Sp_counted_ptrIP18WiFiClientRxBufferLN9__gnu_cxx12_Lock_policyE2EED5Ev                                                                                       0            0
+.xt.lit._ZNSt15_Sp_counted_ptrIP18WiFiClientRxBufferLN9__gnu_cxx12_Lock_policyE2EE10_M_destroyEv                                                                             0            0
+.xt.lit._ZNSt15_Sp_counted_ptrIP18WiFiClientRxBufferLN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv                                                                             0            0
+.xt.lit._ZNSt15_Sp_counted_ptrIP22WiFiClientSocketHandleLN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv                                                                         8            0
+.xt.lit._ZN18WiFiClientRxBuffer11r_availableEv                                                                                                                               8            0
+.xt.lit._ZN18WiFiClientRxBuffer10fillBufferEv                                                                                                                                8            0
+.xt.lit._ZN18WiFiClientRxBuffer4readEPhj                                                                                                                                     0            0
+.xt.lit._ZNSt14__shared_countILN9__gnu_cxx12_Lock_policyE2EED5Ev                                                                                                             8            0
+.xt.lit._ZNSt12__shared_ptrI22WiFiClientSocketHandleLN9__gnu_cxx12_Lock_policyE2EE5resetIS0_EENSt9enable_ifIXsrSt21__sp_is_constructibleIS0_T_E5valueEvE4typeEPS7_           8            0
+.xt.lit._ZNSt12__shared_ptrI18WiFiClientRxBufferLN9__gnu_cxx12_Lock_policyE2EE5resetIS0_EENSt9enable_ifIXsrSt21__sp_is_constructibleIS0_T_E5valueEvE4typeEPS7_               8            0
+.xt.prop._ZNSt15_Sp_counted_ptrIP22WiFiClientSocketHandleLN9__gnu_cxx12_Lock_policyE2EED5Ev                                                                                  0            0
+.xt.prop._ZNSt15_Sp_counted_ptrIP22WiFiClientSocketHandleLN9__gnu_cxx12_Lock_policyE2EE10_M_destroyEv                                                                       36            0
+.xt.prop._ZNSt15_Sp_counted_ptrIP18WiFiClientRxBufferLN9__gnu_cxx12_Lock_policyE2EED5Ev                                                                                      0            0
+.xt.prop._ZNSt15_Sp_counted_ptrIP18WiFiClientRxBufferLN9__gnu_cxx12_Lock_policyE2EE10_M_destroyEv                                                                           36            0
+.xt.prop._ZNSt15_Sp_counted_ptrIP18WiFiClientRxBufferLN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv                                                                           48            0
+.xt.prop._ZNSt15_Sp_counted_ptrIP22WiFiClientSocketHandleLN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv                                                                       60            0
+.xt.prop._ZN18WiFiClientRxBuffer11r_availableEv                                                                                                                             84            0
+.xt.prop._ZN18WiFiClientRxBuffer10fillBufferEv                                                                                                                             144            0
+.xt.prop._ZN18WiFiClientRxBuffer4readEPhj                                                                                                                                  180            0
+.xt.prop._ZNSt14__shared_countILN9__gnu_cxx12_Lock_policyE2EED5Ev                                                                                                           12            0
+.xt.prop._ZNSt12__shared_ptrI22WiFiClientSocketHandleLN9__gnu_cxx12_Lock_policyE2EE5resetIS0_EENSt9enable_ifIXsrSt21__sp_is_constructibleIS0_T_E5valueEvE4typeEPS7_         96            0
+.xt.prop._ZNSt12__shared_ptrI18WiFiClientRxBufferLN9__gnu_cxx12_Lock_policyE2EE5resetIS0_EENSt9enable_ifIXsrSt21__sp_is_constructibleIS0_T_E5valueEvE4typeEPS7_             96            0
+.xt.prop._ZN6Stream9readBytesEPhj                                                                                                                                           36            0
+.xt.prop._ZN10WiFiClientcvbEv                                                                                                                                               36            0
+.xt.prop._ZNSt15_Sp_counted_ptrIP18WiFiClientRxBufferLN9__gnu_cxx12_Lock_policyE2EED2Ev                                                                                     36            0
+.xt.prop._ZNSt15_Sp_counted_ptrIP22WiFiClientSocketHandleLN9__gnu_cxx12_Lock_policyE2EED2Ev                                                                                 36            0
+.xt.prop._ZNSt15_Sp_counted_ptrIP18WiFiClientRxBufferLN9__gnu_cxx12_Lock_policyE2EE14_M_get_deleterERKSt9type_info                                                          36            0
+.xt.prop._ZNSt15_Sp_counted_ptrIP22WiFiClientSocketHandleLN9__gnu_cxx12_Lock_policyE2EE14_M_get_deleterERKSt9type_info                                                      36            0
+.xt.prop._ZNSt15_Sp_counted_ptrIP22WiFiClientSocketHandleLN9__gnu_cxx12_Lock_policyE2EED0Ev                                                                                 36            0
+.xt.prop._ZNSt15_Sp_counted_ptrIP18WiFiClientRxBufferLN9__gnu_cxx12_Lock_policyE2EED0Ev                                                                                     36            0
+.xt.prop._ZNSt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE2EE10_M_releaseEv                                                                                               60            0
+.xt.prop._ZNSt14__shared_countILN9__gnu_cxx12_Lock_policyE2EED2Ev                                                                                                           36            0
+.xt.prop._ZTV10WiFiClient                                                                                                                                                   12            0
+.xt.prop._ZTVSt15_Sp_counted_ptrIP22WiFiClientSocketHandleLN9__gnu_cxx12_Lock_policyE2EE                                                                                    12            0
+.xt.prop._ZTVSt15_Sp_counted_ptrIP18WiFiClientRxBufferLN9__gnu_cxx12_Lock_policyE2EE                                                                                        12            0
+.xt.lit._ZNSt8functionIFv18arduino_event_id_t20arduino_event_info_tEEC5ERKS3_                                                                                                0            0
+.xt.lit._ZN15WiFiEventCbListC5ERKS_                                                                                                                                          0            0
+.xt.prop._ZNSt8functionIFv18arduino_event_id_t20arduino_event_info_tEEC5ERKS3_                                                                                               0            0
+.xt.prop._ZN15WiFiEventCbListC5ERKS_                                                                                                                                         0            0
+.xt.prop._ZNSt8functionIFv18arduino_event_id_t20arduino_event_info_tEEC2ERKS3_                                                                                              60            0
+.xt.prop._ZN15WiFiEventCbListC2ERKS_                                                                                                                                        36            0
+.xt.prop._ZN14HardwareSerial9readBytesEPcj                                                                                                                                  36            0
+.xt.prop._ZTV14HardwareSerial                                                                                                                                               12            0
+.xt.lit._ZN9IPAddressD5Ev                                                                                                                                                    0            0
+.xt.prop._ZN9IPAddressD5Ev                                                                                                                                                   0            0
+.xt.prop._ZN9IPAddressD2Ev                                                                                                                                                  36            0
+.xt.prop._ZN9IPAddressD0Ev                                                                                                                                                  36            0
+.xt.prop._ZTV9IPAddress                                                                                                                                                     12            0
+.xt.lit._ZN5Print5writeEPKc                                                                                                                                                  0            0
+.xt.prop._ZN5Print5writeEPKc                                                                                                                                                48            0
+.xt.lit._ZN6String4initEv                                                                                                                                                    8            0
+.xt.prop._ZN6String4initEv                                                                                                                                                  48            0
+.xt.prop._ZNK6String3lenEv                                                                                                                                                  60            0
+.xt.prop._ZN6String6setLenEi                                                                                                                                                72            0
+.xt.lit._ZN3nvs4Lock4initEv                                                                                                                                                  0            0
+.xt.prop._ZN3nvs4Lock4initEv                                                                                                                                                72            0
+.xt.prop._ZN14intrusive_listI14NVSHandleEntryE5eraseENS1_8iteratorE                                                                                                         84            0
+.xt.lit._ZN14intrusive_listIN3nvs7Storage14NamespaceEntryEE17clearAndFreeNodesEv                                                                                             0            0
+.xt.prop._ZN14intrusive_listIN3nvs7Storage14NamespaceEntryEE17clearAndFreeNodesEv                                                                                          108            0
+.xt.prop._ZN14intrusive_listIN3nvs7Storage14NamespaceEntryEE9push_backEPS2_                                                                                                 60            0
+.xt.prop._ZTVN3nvs15NVSHandleSimpleE                                                                                                                                        12            0
+.xt.lit._ZN3nvs12NVSPartitionD5Ev                                                                                                                                            0            0
+.xt.prop._ZN3nvs12NVSPartitionD5Ev                                                                                                                                           0            0
+.xt.prop._ZN3nvs12NVSPartitionD2Ev                                                                                                                                          36            0
+.xt.prop._ZN3nvs12NVSPartitionD0Ev                                                                                                                                          36            0
+.xt.prop._ZTVN3nvs12NVSPartitionE                                                                                                                                           12            0
+.xt.lit._ZN3nvs19NVSPartitionManagerD5Ev                                                                                                                                     0            0
+.xt.prop._ZN3nvs19NVSPartitionManagerD5Ev                                                                                                                                    0            0
+.xt.prop._ZN3nvs19NVSPartitionManagerD2Ev                                                                                                                                   36            0
+.xt.prop._ZN3nvs19NVSPartitionManagerD0Ev                                                                                                                                   36            0
+.xt.prop._ZN14intrusive_listIN3nvs12NVSPartitionEE5eraseENS2_8iteratorE                                                                                                     84            0
+.xt.prop._ZN14intrusive_listIN3nvs15NVSHandleSimpleEE5eraseENS2_8iteratorE                                                                                                  84            0
+.xt.prop._ZTVN3nvs19NVSPartitionManagerE                                                                                                                                    12            0
+.xt.prop._ZN14intrusive_listIN3nvs8HashList13HashListBlockEE5eraseENS3_8iteratorE                                                                                           84            0
+.xt.lit._ZN3nvs4ItemC5EhNS_8ItemTypeEhPKch                                                                                                                                   0            0
+.xt.prop._ZN3nvs4ItemC5EhNS_8ItemTypeEhPKch                                                                                                                                  0            0
+.xt.prop._ZN3nvs20isVariableLengthTypeENS_8ItemTypeE                                                                                                                        48            0
+.xt.prop._ZN3nvs4ItemC2EhNS_8ItemTypeEhPKch                                                                                                                                 60            0
+.xt.prop._ZNK19CompressedEnumTableIN3nvs4Page10EntryStateELj2ELj126EE3getEjPS2_                                                                                             48            0
+.xt.lit._ZN14intrusive_listIN3nvs4PageEE5clearEv                                                                                                                             0            0
+.xt.prop._ZN14intrusive_listIN3nvs4PageEE5clearEv                                                                                                                           60            0
+.xt.prop._ZN14intrusive_listIN3nvs4PageEE9push_backEPS1_                                                                                                                    60            0
+.xt.prop._ZN14intrusive_listIN3nvs4PageEE5eraseENS2_8iteratorE                                                                                                              84            0
+.xt.prop._ZTISt9exception                                                                                                                                                   12            0
+.xt.prop._ZTISt9bad_alloc                                                                                                                                                   12            0
+.xt.prop._ZTISt17bad_function_call                                                                                                                                          12            0
+.xt.prop._ZTVSt17bad_function_call                                                                                                                                          12            0
+.xt.prop._ZTVN10__cxxabiv120__si_class_type_infoE                                                                                                                           12            0
+.xt.prop._ZTVN10__cxxabiv117__class_type_infoE                                                                                                                              12            0
+.xt.lit._ZNK9__gnu_cxx24__concurrence_lock_error4whatEv                                                                                                                      8            0
+.xt.lit._ZNK9__gnu_cxx26__concurrence_unlock_error4whatEv                                                                                                                    8            0
+.xt.lit._ZN9__gnu_cxx24__concurrence_lock_errorD5Ev                                                                                                                          8            0
+.xt.lit._ZN9__gnu_cxx26__concurrence_unlock_errorD5Ev                                                                                                                        8            0
+.xt.lit._ZN9__gnu_cxx7__mutex4lockEv                                                                                                                                         8            0
+.xt.lit._ZN9__gnu_cxx13__scoped_lockD5Ev                                                                                                                                     8            0
+.xt.prop._ZNK9__gnu_cxx24__concurrence_lock_error4whatEv                                                                                                                    48            0
+.xt.prop._ZNK9__gnu_cxx26__concurrence_unlock_error4whatEv                                                                                                                  48            0
+.xt.prop._ZN9__gnu_cxx24__concurrence_lock_errorD5Ev                                                                                                                        12            0
+.xt.prop._ZN9__gnu_cxx26__concurrence_unlock_errorD5Ev                                                                                                                      12            0
+.xt.prop._ZN9__gnu_cxx7__mutex4lockEv                                                                                                                                       48            0
+.xt.prop._ZN9__gnu_cxx13__scoped_lockD5Ev                                                                                                                                   12            0
+.xt.prop._ZN9__gnu_cxx24__concurrence_lock_errorD2Ev                                                                                                                        36            0
+.xt.prop._ZN9__gnu_cxx26__concurrence_unlock_errorD2Ev                                                                                                                      36            0
+.xt.prop._ZN9__gnu_cxx24__concurrence_lock_errorD0Ev                                                                                                                        36            0
+.xt.prop._ZN9__gnu_cxx26__concurrence_unlock_errorD0Ev                                                                                                                      36            0
+.xt.prop._ZN9__gnu_cxx13__scoped_lockD2Ev                                                                                                                                   72            0
+.xt.prop._ZTIN9__gnu_cxx24__concurrence_lock_errorE                                                                                                                         12            0
+.xt.prop._ZTIN9__gnu_cxx26__concurrence_unlock_errorE                                                                                                                       12            0
+.xt.prop._ZTVN9__gnu_cxx24__concurrence_lock_errorE                                                                                                                         12            0
+.xt.prop._ZTVN9__gnu_cxx26__concurrence_unlock_errorE                                                                                                                       12            0
+.xt.prop._ZTVSt9bad_alloc                                                                                                                                                   12            0
+.debug_frame                                                                                                                                                            155752            0
+.debug_info                                                                                                                                                            7732832            0
+.debug_abbrev                                                                                                                                                           536900            0
+.debug_loc                                                                                                                                                             1360355            0
+.debug_aranges                                                                                                                                                           59536            0
+.debug_ranges                                                                                                                                                           200960            0
+.debug_line                                                                                                                                                            2796714            0
+.debug_str                                                                                                                                                             1133383            0
+Total                                                                                                                                                                 15316739
+========================= [SUCCESS] Took 2.08 seconds =========================

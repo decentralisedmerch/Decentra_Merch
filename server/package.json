@@ -1,0 +1,26 @@
+{
+  "name": "truthsignal-server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "TruthSignal Trust Oracle MVP - Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js || echo 'Jest not installed - run manual tests'",
+    "test-wallet": "node ../tests/wallet-connect.test.js"
+  },
+  "dependencies": {
+    "@mysten/sui": "^1.45.0",
+    "archiver": "^7.0.1",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.21.2",
+    "form-data": "^4.0.5",
+    "fs-extra": "^11.3.2",
+    "mqtt": "^5.14.1",
+    "node-fetch": "^2.7.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

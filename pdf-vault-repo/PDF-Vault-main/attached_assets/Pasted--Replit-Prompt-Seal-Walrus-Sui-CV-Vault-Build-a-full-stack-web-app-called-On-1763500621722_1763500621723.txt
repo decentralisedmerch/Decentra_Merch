@@ -1,0 +1,202 @@
+
+### 🔧 Replit Prompt (Seal + Walrus + Sui + CV Vault)
+
+> Build a full-stack web app called **“On-Chain CV Proof Vault”** that uses **Sui + Seal** for encryption / access control and **Walrus** (or mocked storage) for blob storage.
+>
+> ## High-Level Goal
+>
+> The app should let a candidate:
+>
+> 1. Upload their **CV as a PDF**
+> 2. Encrypt the CV using **Seal** (or mock Seal in a clean way if the SDK is not available)
+> 3. Store the **encrypted CV** as a blob in **Walrus** (or a mocked storage adapter)
+> 4. Create an **on-chain proof object on Sui** that links:
+>
+>    * `sealObjectId` (Seal policy object id)
+>    * `walrusContentId` or `storageUrl`
+>    * `ciphertextHash`
+>    * `owner` (candidate wallet address)
+>    * `createdAt`
+> 5. Get a **shareable verification link** like:
+>
+>    * `https://cvproof.app/p/<proofCode>`
+>
+> A recruiter should be able to:
+>
+> 1. Open the share link
+> 2. Connect a Sui wallet (or mock identity)
+> 3. Request a decryption key via **Seal** according to the policy
+> 4. Download + decrypt the encrypted CV and view it in the browser.
+>
+> The first version can mock Seal / Walrus / Sui calls, but the code must be structured so that real SDK calls can be plugged in later with minimal changes.
+>
+> ---
+>
+> ## Architecture
+>
+> * Use **Node.js + Express** for the backend.
+> * Use **React** for the frontend (e.g. Vite or CRA) in a `/client` folder.
+> * Use environment variables (`.env`) for RPC URLs, API keys, etc.
+> * Create clear service modules:
+>
+>   * `server/services/sealService.ts`
+>   * `server/services/walrusService.ts`
+>   * `server/services/suiService.ts`
+>   * `server/services/proofService.ts`
+>
+> Each of these services should expose clean async functions so that I can later replace the mock logic with real SDK integration.
+>
+> If you cannot import real SDKs for Seal / Walrus / Sui in Replit, then:
+>
+> * Implement **mock functions** with the same signatures:
+>
+>   * `sealService.encryptCV({ pdfBytes, ownerAddress, policy })`
+>     → returns `{ ciphertext, sealObjectId }`
+>   * `sealService.getDecryptionKey({ sealObjectId, viewerAddress })`
+>     → returns `{ decryptKey }` (mocked)
+>   * `sealService.decryptCV({ ciphertext, decryptKey })`
+>     → returns original `pdfBytes`
+>   * `walrusService.uploadEncryptedCV(ciphertext)`
+>     → returns `{ walrusContentId, storageUrl }`
+>   * `walrusService.fetchEncryptedCV(walrusContentId)`
+>     → returns `ciphertext`
+>   * `suiService.createCVProof({ ownerAddress, sealObjectId, walrusContentId, ciphertextHash })`
+>     → returns `{ txHash, proofCode }`
+>   * `suiService.getProofByCode(proofCode)`
+>     → returns proof metadata record
+>
+> Also implement a simple data layer (in-memory or SQLite/JSON) in `proofService` to store:
+>
+> * `proofCode`
+> * `ownerAddress`
+> * `sealObjectId`
+> * `walrusContentId`
+> * `storageUrl`
+> * `ciphertextHash`
+> * `txHash`
+> * `createdAt`
+>
+> Please add clear comments where real Seal / Walrus / Sui SDK calls should be placed.
+>
+> ---
+>
+> ## Core Flows
+>
+> ### 1. “Register CV” (Candidate)
+>
+> Route: `/register`
+>
+> Frontend:
+>
+> * Form fields:
+>
+>   * CV upload (PDF only)
+>   * Wallet address (string for now, no full wallet connect required)
+> * On submit:
+>
+>   1. Read the PDF as `ArrayBuffer` in the browser.
+>   2. Call backend `POST /api/register` with `pdfBytes` and `walletAddress`.
+>
+> Backend `POST /api/register`:
+>
+> 1. Use `sealService.encryptCV` to simulate / perform encryption and create a **Seal policy**:
+>
+>    * Policy concept:
+>
+>      * `owner = walletAddress`
+>      * for now, allow any viewer to decrypt (or hard-code a mocked recruiter address).
+> 2. Compute `ciphertextHash` (e.g. SHA-256 of encrypted bytes).
+> 3. Call `walrusService.uploadEncryptedCV(ciphertext)` to get `walrusContentId` + `storageUrl`.
+> 4. Call `suiService.createCVProof(...)` to get `{ txHash, proofCode }`.
+> 5. Save the full proof record using `proofService`.
+> 6. Return to frontend:
+>
+>    * `proofCode`
+>    * `txHash`
+>    * `shareUrl` (e.g. `https://<app-domain>/p/<proofCode>`)
+>
+> Frontend should show a success screen with:
+>
+> * Proof code
+> * Shareable link
+> * Copy-to-clipboard buttons.
+>
+> ---
+>
+> ### 2. “View / Verify CV” (Recruiter)
+>
+> Routes:
+>
+> * `/p/:proofCode` – public proof page
+> * `/api/proof/:proofCode` – backend API
+>
+> Backend `GET /api/proof/:proofCode`:
+>
+> * Look up proof record in `proofService`.
+> * If not found, return 404.
+> * If found, return:
+>
+>   * `ownerAddress`
+>   * `sealObjectId`
+>   * `walrusContentId`
+>   * `storageUrl`
+>   * `ciphertextHash`
+>   * `txHash`
+>   * `createdAt`
+>
+> Frontend on `/p/:proofCode`:
+>
+> 1. Fetch metadata from `/api/proof/:proofCode`.
+> 2. For MVP, mock a **“Connect Wallet”** step with a fake `recruiterAddress` or a simple text input.
+> 3. Call backend `GET /api/proof/:proofCode/decrypted` (you should implement this).
+>
+> Backend `GET /api/proof/:proofCode/decrypted`:
+>
+> 1. Get proof record.
+> 2. Call `walrusService.fetchEncryptedCV(walrusContentId)` → `ciphertext`.
+> 3. Call `sealService.getDecryptionKey({ sealObjectId, viewerAddress })` → `decryptKey` (mock logic for now, always allow).
+> 4. Call `sealService.decryptCV({ ciphertext, decryptKey })` → `pdfBytes`.
+> 5. Return the PDF bytes as a file download or as a base64 string.
+>
+> Frontend:
+>
+> * Show a **“View CV”** button that either:
+>
+>   * opens the PDF in a new tab, or
+>   * renders it inline using an `<iframe>` / `object` tag.
+> * Also display:
+>
+>   * status badge: “Proof verified (mocked on-chain)”
+>   * owner wallet
+>   * timestamp
+>   * tx hash / proof code.
+>
+> ---
+>
+> ## UI / UX Requirements
+>
+> * Clean, professional HR-style UI:
+>
+>   * Header: logo + “Register CV” + “Verify”
+>   * Hero section on `/` with:
+>
+>     * Title: “Tamper-Proof CV Verification”
+>     * Subtitle explaining on-chain proof
+>     * Two buttons: “Register CV” and “Verify CV”
+> * Proof page should show:
+>
+>   * A clear verification status
+>   * Proof metadata
+>   * “View CV” button linked to decrypted PDF.
+>
+> ---
+>
+> ## What I Want from You (Replit)
+>
+> * Scaffold the full project (client + server) in a single Replit.
+> * Implement the `Register CV` and `View / Verify CV` flows end-to-end using **mocked Seal / Walrus / Sui services**, with all logic placed in `sealService`, `walrusService`, `suiService`, and `proofService` modules.
+> * Add clear code comments indicating where real SDK calls for Seal, Walrus, and Sui should be plugged in later.
+> * Make the app runnable with a single “Run” command.
+>
+> Start by setting up the project structure and the service modules, then implement the backend routes and frontend pages step by step.
+

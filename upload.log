@@ -1,0 +1,42 @@
+Processing m5stack-atom (platform: espressif32; board: m5stack-atom; framework: arduino)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/espressif32/m5stack-atom.html
+PLATFORM: Espressif 32 (6.12.0) > M5Stack-ATOM
+HARDWARE: ESP32 240MHz, 320KB RAM, 4MB Flash
+DEBUG: Current (cmsis-dap) External (cmsis-dap, esp-bridge, esp-prog, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa)
+PACKAGES: 
+ - framework-arduinoespressif32 @ 3.20017.241212+sha.dcc1105b 
+ - tool-esptoolpy @ 2.40900.250804 (4.9.0) 
+ - tool-mkfatfs @ 2.0.1 
+ - tool-mklittlefs @ 1.203.210628 (2.3) 
+ - tool-mkspiffs @ 2.230.0 (2.30) 
+ - toolchain-xtensa-esp32 @ 8.4.0+2021r2-patch5
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 35 compatible libraries
+Scanning dependencies...
+Dependency Graph
+|-- PubSubClient @ 2.8.0
+|-- FastLED @ 3.10.3
+|-- WiFi @ 2.0.0
+Building in release mode
+Retrieving maximum program size .pio/build/m5stack-atom/firmware.elf
+Checking size .pio/build/m5stack-atom/firmware.elf
+Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+RAM:   [=         ]  14.0% (used 45848 bytes from 327680 bytes)
+Flash: [======    ]  60.9% (used 797769 bytes from 1310720 bytes)
+Configuring upload protocol...
+AVAILABLE: cmsis-dap, esp-bridge, esp-prog, espota, esptool, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa
+CURRENT: upload_protocol = esptool
+Looking for upload port...
+Using manually specified: /dev/cu.usbserial-2152DA2846
+Uploading .pio/build/m5stack-atom/firmware.bin
+esptool.py v4.9.0
+Serial port /dev/cu.usbserial-2152DA2846
+
+A fatal error occurred: Could not open /dev/cu.usbserial-2152DA2846, the port is busy or doesn't exist.
+([Errno 35] Could not exclusively lock port /dev/cu.usbserial-2152DA2846: [Errno 35] Resource temporarily unavailable)
+
+*** [upload] Error 2
+========================== [FAILED] Took 2.03 seconds ==========================

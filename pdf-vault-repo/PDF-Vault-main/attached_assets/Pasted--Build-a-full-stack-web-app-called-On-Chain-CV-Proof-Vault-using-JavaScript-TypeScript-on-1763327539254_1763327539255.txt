@@ -1,0 +1,164 @@
+
+
+> Build a full-stack web app called **“On-Chain CV Proof Vault”** using JavaScript/TypeScript on Replit.
+>
+> ## Goal
+>
+> The app lets a **candidate**:
+>
+> 1. Upload their **CV as a PDF**
+> 2. Store it on **Walrus** (or simulate Walrus storage if SDK is not available)
+> 3. Compute a **hash** of the CV file
+> 4. Register a **proof record** on Sui (or simulate it) that includes:
+>
+>    * `fileHash`
+>    * `contentId` or `storageUrl` from Walrus
+>    * `walletAddress` (typed manually for now)
+>    * `timestamp`
+> 5. Get a **shareable link** like:
+>
+>    * `https://cvproof.app/p/<proofCode>`
+> 6. Optionally also see the **tx hash / proof code** that can be pasted into a job application.
+>
+> A **recruiter** should be able to:
+>
+> 1. Open the share link (e.g. `/p/<proofCode>`)
+> 2. See:
+>
+>    * A verified summary of the CV proof (wallet, timestamp, hash, etc.)
+>    * A button or link to **view/download the CV** from Walrus (or simulated storage)
+>
+> The first version can fully mock Walrus and Sui, but the architecture must make it easy to plug real SDKs later.
+>
+> ---
+>
+> ## Architecture
+>
+> * Use **Node.js + Express** for the backend.
+> * Use **React** for the frontend, all inside Replit:
+>
+>   * `/client` for frontend
+>   * `/server` for backend
+> * Use environment variables (`.env`) for any future RPC URLs or API keys.
+> * Separate integration logic into:
+>
+>   * `server/services/walrusService.ts`
+>   * `server/services/suiService.ts`
+>
+> If direct Walrus / Sui integration is not practical in Replit, implement **mock services**:
+>
+> * `uploadCVToWalrus(file)`
+>
+>   * returns `{ contentId, storageUrl }` (fake but stable for demo)
+> * `registerCVProofOnSui({ fileHash, contentId, walletAddress })`
+>
+>   * returns `{ txHash, proofCode }`
+> * `getProofByCode(proofCode)`
+>
+>   * returns the stored proof record or `null` if not found
+>
+> Store proof records in a simple data layer (in-memory array or SQLite/JSON) with fields:
+>
+> * `id`
+> * `walletAddress`
+> * `fileHash`
+> * `contentId`
+> * `storageUrl`
+> * `txHash`
+> * `proofCode`
+> * `createdAt`
+>
+> Please clearly comment where real Walrus/Sui SDK calls would be plugged in later.
+>
+> ---
+>
+> ## Core Features
+>
+> ### 1. Landing Page
+>
+> * App name: **On-Chain CV Proof Vault**
+> * Two primary buttons:
+>
+>   * “Register CV” (for candidates)
+>   * “Verify / View CV” (for recruiters)
+>
+> ### 2. “Register CV” Flow (Candidate)
+>
+> * Page route: e.g. `/register`
+> * Form fields:
+>
+>   * File upload (PDF only)
+>   * Wallet address (text input, no wallet connect required yet)
+> * On submit:
+>
+>   1. Backend uploads file using `uploadCVToWalrus` (or mock)
+>   2. Backend computes a hash of the PDF (e.g. SHA-256)
+>   3. Backend calls `registerCVProofOnSui` (or mock) and gets `{ txHash, proofCode }`
+>   4. Backend saves the full record in the local data store.
+>   5. Frontend shows a **success screen** with:
+>
+>      * “Your CV Proof Code (TX Hash)”
+>      * The **shareable URL**: e.g. `https://<app-domain>/p/<proofCode>`
+>      * Copy-to-clipboard buttons for both.
+>
+> ### 3. “View / Verify CV” Flow (Recruiter)
+>
+> * There are two ways to use it:
+>
+>   1. Direct link: `/p/<proofCode>`
+>   2. A simple page `/verify` where the recruiter can paste a proof code.
+> * Backend:
+>
+>   * `GET /api/proof/:proofCode`
+>   * Looks up the record via `getProofByCode`
+> * Frontend (proof page):
+>
+>   * If found:
+>
+>     * Show:
+>
+>       * Wallet address
+>       * Created at (formatted timestamp)
+>       * File hash (shortened)
+>       * Tx hash / proof code
+>       * A button “View CV” → opens `storageUrl` in a new tab
+>     * A small badge like “Proof verified (mocked on-chain)”
+>   * If not found:
+>
+>     * Show a clear error: “No CV proof found for this code.”
+>
+> ---
+>
+> ## UI / UX Requirements
+>
+> * Clean, professional look (suitable for recruiting / HR context).
+> * Basic layout:
+>
+>   * Header with app name and navigation links (“Register”, “Verify”).
+>   * Centered cards for the forms.
+> * Use a neutral color palette (white/grey) with a single primary accent.
+> * Include loading states and error messages for network actions.
+>
+> ---
+>
+> ## Extra (Optional)
+>
+> If time allows:
+>
+> * A “My Proofs” page where a user can enter their wallet address and see previous CV proofs associated with that wallet.
+> * Simple validation:
+>
+>   * Reject non-PDF uploads
+>   * Require wallet address and file
+>
+> ---
+>
+> ## What I want from you (Replit)
+>
+> * Scaffold the client/server project and wire them together.
+> * Implement the full `Register CV` and `View/Verify` flows end-to-end with mocked Walrus/Sui services.
+> * Add clear comments in the code indicating where real Walrus and Sui SDK integrations should be placed later.
+> * Make the project runnable with a single “Run” command in Replit.
+>
+> Start by creating the base project structure, then implement the backend routes and frontend pages step by step.
+

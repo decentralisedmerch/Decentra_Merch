@@ -1,0 +1,1001 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>TruthSignal Demo</title>
+<style>
+  body{font-family:Arial;background:#0f1720;color:#e6eef8;padding:28px;padding-top:100px}
+  .card{background:#111827;padding:18px;border-radius:8px;max-width:800px;margin:auto;margin-bottom:20px}
+  button{padding:10px 14px;border-radius:6px;border:none;background:#06b6d4;color:#031024;cursor:pointer;margin-right:6px;margin-top:6px}
+  button:hover{background:#0891b2}
+  button:disabled{background:#475569;cursor:not-allowed}
+  pre{background:#0b1220;padding:12px;border-radius:6px;overflow-x:auto}
+  .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.7)}
+  .modal-content{background:#1e293b;margin:10% auto;padding:24px;border-radius:8px;max-width:600px;color:#e6eef8}
+  .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .close{color:#94a3b8;font-size:28px;font-weight:bold;cursor:pointer}
+  .close:hover{color:#e6eef8}
+  .checkbox-label{display:flex;align-items:center;margin:12px 0;gap:8px}
+  .step-list{list-style:decimal;margin:16px 0;padding-left:24px}
+  .step-list li{margin:8px 0}
+  input[type="text"]{width:100%;padding:8px;border-radius:4px;border:1px solid #475569;background:#0f1720;color:#e6eef8;margin:8px 0}
+  .walrus-link{color:#06b6d4;text-decoration:none;margin-left:8px}
+  .walrus-link:hover{text-decoration:underline}
+  .success{color:#10b981;margin:8px 0}
+  .error{color:#ef4444;margin:8px 0}
+  .progress{color:#06b6d4;margin:8px 0;font-weight:bold}
+  .progress-step{margin:4px 0;padding:4px 0}
+  .button-group{display:flex;gap:8px;margin:12px 0}
+  .cid-display{background:#0b1220;padding:8px;border-radius:4px;margin:8px 0;word-break:break-all}
+  .cid-link{color:#06b6d4;text-decoration:none}
+  .cid-link:hover{text-decoration:underline}
+  .copy-btn{background:#475569;padding:4px 8px;font-size:12px;margin-left:8px}
+  .copy-btn:hover{background:#64748b}
+  .wallet-list{margin:12px 0;padding:12px;background:#0b1220;border-radius:4px}
+  .wallet-list{margin:12px 0;padding:12px;background:#0b1220;border-radius:4px}
+  .wallet-row{display:flex;align-items:center;justify-content:space-between;padding:8px;margin:4px 0;border:1px solid #475569;border-radius:4px}
+  .wallet-label{display:flex;align-items:center;gap:8px;cursor:pointer;flex:1}
+  .wallet-label input[type="radio"]{margin:0}
+  .wallet-label img{width:20px;height:20px;border-radius:4px}
+  .wallet-connect-btn{padding:4px 12px;font-size:12px;background:#06b6d4;color:#fff;border:none;border-radius:4px;cursor:pointer}
+  .wallet-connect-btn:hover{background:#0891b2}
+  .wallet-connect-btn:disabled{background:#475569;cursor:not-allowed}
+  .price-display{color:#94a3b8;font-size:12px;margin-left:8px}
+  .global-connect-btn{position:fixed;top:20px;right:20px;padding:8px 16px;font-size:12px;background:#06b6d4;color:#fff;border:none;border-radius:4px;cursor:pointer;z-index:1001}
+  .global-connect-btn:hover{background:#0891b2}
+  .fetch-toggle{position:fixed;bottom:20px;right:20px;background:#1e293b;padding:12px;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,0.3)}
+  .fetch-toggle label{display:flex;align-items:center;gap:8px;cursor:pointer}
+  .spinner{border:2px solid #475569;border-top:2px solid #06b6d4;border-radius:50%;width:16px;height:16px;animation:spin 1s linear infinite;display:inline-block;margin-right:8px}
+  @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+  .token-price{font-size:11px;color:#64748b;margin-left:4px}
+  /* Navbar */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(15, 23, 32, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(71, 85, 105, 0.5);
+    padding: 1rem 0;
+  }
+
+  .navbar-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+
+  .navbar-logo:hover {
+    opacity: 0.8;
+  }
+
+  .navbar-logo img {
+    height: 40px;
+    width: auto;
+  }
+
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .navbar-link {
+    color: #e6eef8;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    padding: 0.5rem 0;
+  }
+
+  .navbar-link:hover {
+    color: #06b6d4;
+  }
+
+  .navbar-link.btn {
+    padding: 0.5rem 1.25rem;
+    background: #06b6d4;
+    color: #031024;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+
+  .navbar-link.btn:hover {
+    background: #0891b2;
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+  }
+
+  /* Adjust body padding for navbar */
+  body {
+    padding-top: 80px;
+  }
+</style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+      <a href="/" class="navbar-logo">
+      <img src="/assets/decentra-merch-logo.jpeg" alt="Decentra Merch Logo" onerror="this.src='/assets/decentra-merch-logo.jpeg'">
+    </a>
+    <div class="navbar-links">
+      <a href="/" class="navbar-link">Home</a>
+      <button id="globalConnectBtn" class="navbar-link btn" style="border: none; cursor: pointer; font-family: inherit; font-size: inherit;">Connect Wallet</button>
+    </div>
+  </div>
+</nav>
+<div class="card">
+  <h2>TruthSignal Demo</h2>
+
+  <label>Token:
+    <select id="token">
+      <option value="btc">BTC <span class="token-price" id="price-btc">-</span></option>
+      <option value="sui">SUI <span class="token-price" id="price-sui">-</span></option>
+      <option value="wal">WAL <span class="token-price" id="price-wal">-</span></option>
+    </select>
+  </label>
+
+  <br><br>
+
+  <label>Price:
+    <input id="price" type="number" step="0.0001" value="1.23">
+    <span class="price-display" id="currentPriceDisplay"></span>
+  </label>
+
+  <br><br>
+
+  <button id="snapBtn">Take Snapshot</button>
+  <button id="verifyBtn">Verify Last</button>
+
+  <h3>Response</h3>
+  <pre id="out">none</pre>
+
+  <h3>Latest Snapshot</h3>
+  <div id="latestCard">
+    <pre id="latest">none</pre>
+    <div id="walrusSection" style="margin-top:12px;display:none">
+      <button id="walrusUploadBtn">Upload & Sign</button>
+      <span id="walrusCidDisplay"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Walrus Upload Modal -->
+<div id="walrusModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Upload to Walrus</h3>
+      <span class="close" id="closeModal">&times;</span>
+    </div>
+    
+    <!-- Step 0: Choose upload method -->
+    <div id="modalStep0">
+      <p>Choose how you want to upload to Walrus:</p>
+      <div class="button-group">
+        <button id="uploadSignBtn">Upload & Sign</button>
+        <button id="manualUploadBtn">Manual Upload</button>
+      </div>
+      <div id="walletStatus" style="margin-top:12px;font-size:14px;color:#94a3b8"></div>
+    </div>
+
+    <!-- Step 1: Upload & Sign flow -->
+    <div id="modalStep1" style="display:none">
+      <h4>Upload & Sign with Sui Wallet</h4>
+      
+      <!-- Wallet Selection -->
+      <div id="walletSelection">
+        <p><strong>Select Wallet:</strong></p>
+        <div id="wallet-list" class="wallet-list"></div>
+        <div id="walletConnectionStatus" style="margin-top:12px;display:none">
+          <div class="success" id="walletConnectedInfo"></div>
+        </div>
+      </div>
+
+      <div class="checkbox-label" style="margin-top:16px">
+        <input type="checkbox" id="includeAudio">
+        <label for="includeAudio">Include audio (if available)</label>
+      </div>
+      <button id="startUploadSignBtn" disabled>Start Upload & Sign</button>
+      <div id="uploadSignStatus"></div>
+      <div id="uploadSignProgress" style="display:none">
+        <div class="progress-step" id="progressStep1"><span class="spinner"></span>Preparing package...</div>
+        <div class="progress-step" id="progressStep2" style="display:none"><span class="spinner"></span>Payload ready...</div>
+        <div class="progress-step" id="progressStep3" style="display:none"><span class="spinner"></span>Waiting for wallet...</div>
+        <div class="progress-step" id="progressStep4" style="display:none"><span class="spinner"></span>Uploading to Walrus...</div>
+        <div class="progress-step" id="progressStep5" style="display:none"><span class="spinner"></span>Registering on Sui...</div>
+        <div class="progress-step" id="progressStep6" style="display:none">✅ Certified!</div>
+      </div>
+      <div id="uploadSignResult" style="display:none">
+        <div class="success">Upload successful!</div>
+        <div class="cid-display">
+          <strong>Walrus CID:</strong> 
+          <a href="#" id="walrusCidLink" target="_blank" class="cid-link"></a>
+          <button class="copy-btn" id="copyCidBtn">Copy</button>
+        </div>
+        <div class="cid-display" id="suiDigestRow" style="display:none">
+          <strong>Sui Tx:</strong>
+          <a href="#" id="suiDigestLink" target="_blank" class="cid-link"></a>
+        </div>
+        <button id="saveCidToSnapshotBtn">Save to Snapshot</button>
+        <button id="retryUploadBtn" style="margin-left:8px">Retry</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Manual upload flow -->
+    <div id="modalStep2" style="display:none">
+      <p><strong>Manual Walrus upload — you will be asked to sign using your Sui wallet on Walrus portal.</strong></p>
+      <p>This prepares a Walrus package for manual upload. You will sign/upload in Walrus web UI.</p>
+      <div class="checkbox-label">
+        <input type="checkbox" id="includeAudioManual">
+        <label for="includeAudioManual">Include audio (if available)</label>
+      </div>
+      <button id="prepareBtn">Prepare & Download Package</button>
+      <div id="prepareStatus"></div>
+    </div>
+    
+    <!-- Step 3: Manual upload instructions -->
+    <div id="modalStep3" style="display:none">
+      <h4>Upload Instructions:</h4>
+      <ol class="step-list">
+        <li>Open <a href="https://portal.wal.app" target="_blank" class="walrus-link">https://portal.wal.app</a> or Walrus Publisher UI</li>
+        <li>Upload <span id="zipFileName"></span> as a blob/quilt</li>
+        <li>When upload completes, copy the Walrus CID/package id and paste it below</li>
+      </ol>
+      <label>Paste Walrus CID:
+        <input type="text" id="walrusCidInput" placeholder="Enter Walrus package ID/CID">
+      </label>
+      <button id="saveCidBtn">Save Walrus CID</button>
+      <div id="saveCidStatus"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Fetch Frequency Toggle -->
+<div class="fetch-toggle">
+  <label>
+    <input type="radio" name="fetchFreq" value="30" id="freq30s" checked>
+    <span>30s</span>
+  </label>
+  <label>
+    <input type="radio" name="fetchFreq" value="300" id="freq5m">
+    <span>5m</span>
+  </label>
+</div>
+
+<!-- Load wallet and walrus adapters -->
+<script type="module">
+import { listAvailableWallets, connectSuiWallet, disconnectSuiWallet, getConnectedWalletInfo, checkSuiWalletInstalled, signMessageWithWallet, executeTransactionBlock } from './js/wallet-adapter.js';
+import { truthsignalWalrusUpload, buildRegistryTransaction } from './js/walrus-adapter.js';
+
+const detectWallets = async () => listAvailableWallets();
+const connectWallet = async (walletObj) => connectSuiWallet(walletObj?.id || walletObj?.name);
+const getConnectedWallet = () => getConnectedWalletInfo();
+const signMessage = async (message) => signMessageWithWallet(message);
+
+window.truthsignalWalrusUpload = truthsignalWalrusUpload;
+window.truthsignalSignMessage = signMessageWithWallet;
+
+const OUT = (v)=>document.getElementById("out").textContent = typeof v==="string"?v:JSON.stringify(v,null,2);
+const LATEST = (v)=>document.getElementById("latest").textContent = v?JSON.stringify(v,null,2):"none";
+const BASE = window.location.hostname === 'localhost' ? "http://localhost:4000" : "";
+
+let currentSnapshot = null;
+
+async function loadLatest(){
+  const token = document.getElementById("token").value;
+  const latestUrl = BASE ? `${BASE}/latest?token=${token}` : `/api/latest?token=${token}`;
+  const r = await fetch(latestUrl);
+  const j = await r.json();
+  LATEST(j);
+  
+  // Generate CID from digest if not present
+  if (j && j.digest && !j.cid) {
+    j.cid = "dev-" + j.digest.slice(0, 12);
+  }
+  
+  currentSnapshot = j;
+  
+  // Show/hide Walrus section
+  const walrusSection = document.getElementById("walrusSection");
+  if (j && j.cid) {
+    walrusSection.style.display = "block";
+    // Check for existing Walrus CID
+    try {
+      const cidUrl = BASE ? `${BASE}/walrus/cid/${j.cid}` : `/api/walrus/cid/${j.cid}`;
+      const cidRes = await fetch(cidUrl);
+      const cidData = await cidRes.json();
+      if (cidData.walrusCid) {
+        document.getElementById("walrusCidDisplay").innerHTML = 
+          `Walrus CID: <a href="https://portal.wal.app/package/${cidData.walrusCid}" target="_blank" class="walrus-link">${cidData.walrusCid}</a>`;
+      } else {
+        document.getElementById("walrusCidDisplay").innerHTML = "";
+      }
+    } catch (err) {
+      console.error("Error loading Walrus CID:", err);
+    }
+  } else {
+    walrusSection.style.display = "none";
+  }
+}
+
+async function snap(){
+  const token = document.getElementById("token").value;
+  const price = parseFloat(document.getElementById("price").value);
+  const timestamp = new Date().toISOString();
+
+  const snapshotUrl = BASE ? `${BASE}/snapshot` : `/api/snapshot`;
+  const r = await fetch(snapshotUrl, {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({token,price,timestamp})
+  });
+  OUT(await r.json());
+  loadLatest();
+}
+
+async function verify(){
+  const latestUrl = BASE ? `${BASE}/latest?token=sui` : `/api/latest?token=sui`;
+  const r = await fetch(latestUrl);
+  const last = await r.json();
+  if(!last){ OUT("no snapshot"); return; }
+
+  const cid = "dev-"+last.digest.slice(0,12);
+  const proof = {cid,signature:"devsig",signerPubKey:"devkey"};
+
+  const verifyUrl = BASE ? `${BASE}/verify` : `/api/verify`;
+  const v = await fetch(verifyUrl, {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({cid,sealProof:proof})
+  });
+  OUT(await v.json());
+}
+
+// Walrus upload functions
+async function openWalrusModal() {
+  if (!currentSnapshot || !currentSnapshot.cid) {
+    alert("No snapshot available");
+    return;
+  }
+  document.getElementById("walrusModal").style.display = "block";
+  resetModal();
+  // Wait a bit for modal to render, then check wallets
+  setTimeout(async () => {
+    await checkSuiWallet();
+  }, 100);
+}
+
+function closeWalrusModal() {
+  document.getElementById("walrusModal").style.display = "none";
+  resetModal();
+}
+
+function resetModal() {
+  // Reset all steps
+  document.getElementById("modalStep0").style.display = "block";
+  document.getElementById("modalStep1").style.display = "none";
+  document.getElementById("modalStep2").style.display = "none";
+  document.getElementById("modalStep3").style.display = "none";
+  
+  // Reset status divs
+  document.getElementById("prepareStatus").innerHTML = "";
+  document.getElementById("saveCidStatus").innerHTML = "";
+  document.getElementById("uploadSignStatus").innerHTML = "";
+  document.getElementById("uploadSignProgress").style.display = "none";
+  document.getElementById("uploadSignResult").style.display = "none";
+  
+  // Reset progress steps
+  document.getElementById("progressStep1").style.display = "none";
+  document.getElementById("progressStep2").style.display = "none";
+  document.getElementById("progressStep3").style.display = "none";
+  document.getElementById("progressStep4").style.display = "none";
+  document.getElementById("progressStep5").style.display = "none";
+  document.getElementById("progressStep6").style.display = "none";
+  
+  // Wallet state is managed by window.truthsignalWallet
+}
+
+// Wallet state
+let connectedWallet = null;
+let connectedAddress = null;
+let connectedWalletWrap = null;
+
+// Check for Sui wallet extension and populate UI
+async function checkSuiWallet() {
+  const walletStatus = document.getElementById("walletStatus");
+  const walletList = document.getElementById("wallet-list"); // Fixed: use wallet-list
+  const startBtn = document.getElementById("startUploadSignBtn");
+  const connectionStatus = document.getElementById("walletConnectionStatus");
+  const connectedInfo = document.getElementById("walletConnectedInfo");
+  
+  try {
+    const wallets = await detectWallets();
+    
+    if (!walletList) {
+      // Modal step 1 not open yet, just check status
+      if (wallets.length > 0) {
+        if (walletStatus) walletStatus.innerHTML = `<span style="color:#10b981">✓ ${wallets.length} wallet(s) detected</span>`;
+      } else {
+        if (walletStatus) walletStatus.innerHTML = '<span style="color:#f59e0b">⚠ No Sui wallets found</span>';
+      }
+      return;
+    }
+    
+    if (wallets.length === 0) {
+      if (walletStatus) walletStatus.innerHTML = '<span style="color:#f59e0b">⚠ No Sui wallets found</span>';
+      walletList.innerHTML = '<p style="color:#f59e0b">No wallets detected. Please install Slush or Suiet.</p>';
+      if (startBtn) startBtn.disabled = true;
+      if (connectionStatus) connectionStatus.style.display = 'none';
+      return;
+    }
+    
+    if (walletStatus) walletStatus.innerHTML = `<span style="color:#10b981">✓ ${wallets.length} wallet(s) detected</span>`;
+    
+    // Check if already connected
+    const currentWallet = getConnectedWallet();
+    const isConnected = currentWallet && wallets.some(w => w.id === currentWallet.id);
+    
+    // Populate wallet list
+    walletList.innerHTML = wallets.map((walletWrap, index) => {
+      const walletId = walletWrap.id;
+      const isThisWalletConnected = currentWallet && currentWallet.id === walletId;
+      const iconHtml = walletWrap.icon 
+        ? `<img src="${walletWrap.icon}" alt="${walletWrap.name}" width="20" height="20" onerror="this.style.display='none'">`
+        : '';
+      
+      return `
+        <div class="wallet-row" style="border:1px solid ${isThisWalletConnected ? '#10b981' : '#475569'};">
+          <label class="wallet-label">
+            <input type="radio" name="wallet-choice" value="${walletId}" id="wallet-${walletId}" ${index === 0 ? 'checked' : ''}>
+            ${iconHtml}
+            <span>${walletWrap.name}</span>
+          </label>
+          <button class="wallet-connect-btn" data-id="${walletId}" ${isThisWalletConnected ? 'style="background:#10b981"' : ''}>
+            ${isThisWalletConnected ? '✓ Connected' : 'Connect'}
+          </button>
+        </div>
+      `;
+    }).join('');
+    
+    // Add click handler for connect buttons
+    walletList.querySelectorAll('.wallet-connect-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const walletId = btn.dataset.id;
+        const walletWrap = wallets.find(w => w.id === walletId);
+        if (!walletWrap) return;
+        
+        btn.disabled = true;
+        btn.textContent = 'Connecting...';
+        
+        const result = await connectWallet(walletWrap);
+        
+        if (result.ok) {
+          btn.textContent = '✓ Connected';
+          btn.style.background = '#10b981';
+          if (connectionStatus) connectionStatus.style.display = 'block';
+          if (connectedInfo) {
+            const shortAddr = `${result.address.slice(0, 6)}...${result.address.slice(-4)}`;
+            connectedInfo.innerHTML = `✓ Connected: ${walletWrap.name} (${shortAddr})`;
+          }
+          if (startBtn) startBtn.disabled = false;
+          // Re-render to update all buttons
+          await checkSuiWallet();
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Connect';
+          btn.style.background = '#06b6d4';
+          alert(`Connection failed: ${result.error}`);
+        }
+      });
+    });
+    
+    // Set default selection
+    if (wallets.length > 0 && !isConnected) {
+      if (startBtn) startBtn.disabled = true;
+    } else if (isConnected) {
+      if (startBtn) startBtn.disabled = false;
+      if (connectionStatus) connectionStatus.style.display = 'block';
+      if (connectedInfo) {
+        const addr = currentWallet.address;
+        const shortAddr = `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+        connectedInfo.innerHTML = `✓ Connected: ${currentWallet.name} (${shortAddr})`;
+      }
+    }
+    
+  } catch (err) {
+    console.error('Error in checkSuiWallet:', err);
+    if (walletStatus) {
+      walletStatus.innerHTML = '<span style="color:#ef4444">Error detecting wallets</span>';
+    }
+    if (walletList) {
+      walletList.innerHTML = '<p style="color:#ef4444">Error loading wallets</p>';
+    }
+  }
+}
+
+// Upload & Sign flow - using new walrus adapter
+async function startUploadAndSign() {
+  if (!currentSnapshot) return;
+  
+  const includeAudio = document.getElementById("includeAudio").checked;
+  const statusDiv = document.getElementById("uploadSignStatus");
+  const progressDiv = document.getElementById("uploadSignProgress");
+  const resultDiv = document.getElementById("uploadSignResult");
+  const suiDigestRow = document.getElementById("suiDigestRow");
+  const suiDigestLink = document.getElementById("suiDigestLink");
+  
+  // Reset UI
+  statusDiv.innerHTML = "";
+  progressDiv.style.display = "block";
+  resultDiv.style.display = "none";
+  resultDiv.dataset.pkgId = "";
+  resultDiv.dataset.walrusCid = "";
+  resultDiv.dataset.suiDigest = "";
+  if (suiDigestRow) suiDigestRow.style.display = "none";
+  if (suiDigestLink) {
+    suiDigestLink.textContent = "";
+    suiDigestLink.removeAttribute("href");
+  }
+
+  // Hide all progress rows initially
+  for (let i = 1; i <= 6; i++) {
+    const stepEl = document.getElementById(`progressStep${i}`);
+    if (stepEl) stepEl.style.display = "none";
+  }
+
+  document.getElementById("startUploadSignBtn").disabled = true;
+  
+  try {
+    // Check wallet connection first
+    if (!window.truthsignalWallet) {
+      const wallets = await detectWallets();
+      if (wallets.length === 0) {
+        throw new Error("No wallets detected. Please install Slush or Suiet.");
+      }
+      // Try to connect to first wallet
+      const connectResult = await connectWallet(wallets[0]);
+      if (!connectResult.ok) {
+        throw new Error(`Please connect a wallet first: ${connectResult.error}`);
+      }
+    }
+    
+    updateProgress(1, "Preparing package...");
+    updateProgress(2, "Creating payload...");
+    updateProgress(3, "Signing with wallet...");
+    updateProgress(4, "Uploading to Walrus...");
+    
+    const walrusResult = await window.truthsignalWalrusUpload(currentSnapshot.cid, includeAudio);
+    
+    if (!walrusResult.ok) {
+      throw new Error(walrusResult.error || `Failed at step: ${walrusResult.step || 'walrus-upload'}`);
+    }
+
+    updateProgress(5, "Building Sui transaction...");
+    const registryResp = await buildRegistryTransaction(walrusResult.pkgId);
+    if (!registryResp?.ok) {
+      throw new Error(registryResp?.error || 'Failed to build Sui transaction');
+    }
+    if (!registryResp.txBytes) {
+      throw new Error('Registry transaction payload missing');
+    }
+
+    updateProgress(6, "Waiting for Sui wallet...");
+    const suiExec = await executeTransactionBlock(registryResp.txBytes);
+    if (!suiExec.ok) {
+      throw new Error(suiExec.error || 'Sui wallet rejected on-chain certification');
+    }
+    
+    updateProgress(6, "Certified on Sui!");
+    
+    // Step 5: Success
+    statusDiv.innerHTML = '<div class="success">Walrus upload + Sui certification complete!</div>';
+
+    resultDiv.style.display = "block";
+    resultDiv.dataset.pkgId = walrusResult.pkgId || registryResp.pkgId || '';
+    resultDiv.dataset.walrusCid = walrusResult.cid || '';
+    resultDiv.dataset.suiDigest = suiExec.digest || '';
+
+    const walrusLink = document.getElementById("walrusCidLink");
+    if (walrusLink) {
+      walrusLink.textContent = walrusResult.cid;
+      walrusLink.href = walrusResult.walrusUrl || `https://portal.wal.app/package/${walrusResult.cid}`;
+    }
+    
+    if (suiExec.digest && suiDigestRow && suiDigestLink) {
+      const network = registryResp.onchain?.network || 'testnet';
+      suiDigestLink.textContent = suiExec.digest;
+      suiDigestLink.href = `https://explorer.sui.io/txblock/${suiExec.digest}?network=${network}`;
+      suiDigestRow.style.display = "flex";
+    } else if (suiDigestRow) {
+      suiDigestRow.style.display = "none";
+    }
+    
+  } catch (err) {
+    statusDiv.innerHTML = `<div class="error">Error: ${err.message}</div>`;
+    progressDiv.style.display = "none";
+    resultDiv.style.display = "none";
+    
+    // Show retry/download options on error
+    if (err.message.includes("cancelled") || err.message.includes("rejected")) {
+      statusDiv.innerHTML += `
+        <div style="margin-top:12px">
+          <button onclick="startUploadAndSign()">Retry Sign</button>
+          <button onclick="document.getElementById('manualUploadBtn').click()" style="margin-left:8px">Download Zip & Manual Upload</button>
+        </div>
+      `;
+    } else if (err.message.includes("upload") || err.message.includes("Walrus")) {
+      statusDiv.innerHTML += `
+        <div style="margin-top:12px">
+          <button onclick="startUploadAndSign()">Retry</button>
+          <button onclick="document.getElementById('manualUploadBtn').click()" style="margin-left:8px">Manual Upload</button>
+        </div>
+      `;
+    }
+  } finally {
+    const startBtn = document.getElementById("startUploadSignBtn");
+    if (startBtn) startBtn.disabled = false;
+  }
+}
+
+function updateProgress(step, message) {
+  // Hide all steps
+  for (let i = 1; i <= 6; i++) {
+    const stepEl = document.getElementById(`progressStep${i}`);
+    if (stepEl) {
+      stepEl.style.display = "none";
+      stepEl.innerHTML = stepEl.innerHTML.replace(/✅|⏳|<span class="spinner"><\/span>/g, '');
+    }
+  }
+  
+  // Show current step
+  if (step <= 6) {
+    const stepEl = document.getElementById(`progressStep${step}`);
+    if (stepEl) {
+      stepEl.style.display = "block";
+      const icon = step === 6 ? "✅" : '<span class="spinner"></span>';
+      stepEl.innerHTML = icon + message;
+    }
+  }
+}
+
+// Manual upload flow
+async function preparePackage() {
+  if (!currentSnapshot) return;
+  
+  const includeAudio = document.getElementById("includeAudioManual").checked;
+  const prepareBtn = document.getElementById("prepareBtn");
+  const statusDiv = document.getElementById("prepareStatus");
+  
+  prepareBtn.disabled = true;
+  statusDiv.innerHTML = "Preparing package...";
+  
+  try {
+    const prepareUrl = BASE ? `${BASE}/walrus/prepare` : `/api/walrus/prepare-and-initiate`;
+    const res = await fetch(prepareUrl, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        snapshotId: currentSnapshot.cid || currentSnapshot.digest,
+        includeAudio: includeAudio
+      })
+    });
+    
+    const data = await res.json();
+    
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to prepare package");
+    }
+    
+    // Download the zip file
+    const downloadUrl = `${BASE}${data.downloadUrl}`;
+    const a = document.createElement("a");
+    a.href = downloadUrl;
+    a.download = data.downloadUrl.split("/").pop();
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    // Show step 3
+    document.getElementById("zipFileName").textContent = data.downloadUrl.split("/").pop();
+    document.getElementById("modalStep2").style.display = "none";
+    document.getElementById("modalStep3").style.display = "block";
+    statusDiv.innerHTML = '<div class="success">Package prepared and downloaded!</div>';
+    
+  } catch (err) {
+    statusDiv.innerHTML = `<div class="error">Error: ${err.message}</div>`;
+  } finally {
+    prepareBtn.disabled = false;
+  }
+}
+
+// Save CID to snapshot
+async function saveCidToSnapshot() {
+  const resultDiv = document.getElementById("uploadSignResult");
+  const pkgId = resultDiv.dataset.pkgId;
+  const walrusCid = resultDiv.dataset.walrusCid;
+  const suiDigest = resultDiv.dataset.suiDigest;
+  
+  if (!currentSnapshot || !walrusCid) return;
+  
+  const saveBtn = document.getElementById("saveCidToSnapshotBtn");
+  saveBtn.disabled = true;
+  
+  try {
+    const finalizeUrl = BASE ? `${BASE}/walrus/save-cid` : `/api/walrus/save-cid`;
+    const res = await fetch(finalizeUrl, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        pkgId: pkgId,
+        cid: walrusCid,
+        suiTxDigest: suiDigest || null,
+        snapshotId: currentSnapshot.cid || currentSnapshot.digest
+      })
+    });
+    
+    const data = await res.json();
+    
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to save CID");
+    }
+    
+    alert("Walrus CID saved to snapshot!");
+    closeWalrusModal();
+    loadLatest();
+    
+  } catch (err) {
+    alert(`Error saving CID: ${err.message}`);
+  } finally {
+    saveBtn.disabled = false;
+  }
+}
+
+// Copy CID to clipboard
+function copyCidToClipboard() {
+  const cidLink = document.getElementById("walrusCidLink");
+  const cid = cidLink.textContent;
+  
+  navigator.clipboard.writeText(cid).then(() => {
+    const copyBtn = document.getElementById("copyCidBtn");
+    const originalText = copyBtn.textContent;
+    copyBtn.textContent = "Copied!";
+    setTimeout(() => {
+      copyBtn.textContent = originalText;
+    }, 2000);
+  }).catch(err => {
+    alert("Failed to copy CID: " + err.message);
+  });
+}
+
+async function saveWalrusCid() {
+  if (!currentSnapshot) return;
+  
+  const walrusCid = document.getElementById("walrusCidInput").value.trim();
+  if (!walrusCid) {
+    document.getElementById("saveCidStatus").innerHTML = '<div class="error">Please enter a Walrus CID</div>';
+    return;
+  }
+  
+  const saveBtn = document.getElementById("saveCidBtn");
+  const statusDiv = document.getElementById("saveCidStatus");
+  
+  saveBtn.disabled = true;
+  statusDiv.innerHTML = "Saving...";
+  
+  try {
+    const saveCidUrl = BASE ? `${BASE}/walrus/save-cid` : `/api/walrus/save-cid`;
+    const res = await fetch(saveCidUrl, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        cid: walrusCid,
+        snapshotId: currentSnapshot.cid || currentSnapshot.digest
+      })
+    });
+    
+    const data = await res.json();
+    
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to save Walrus CID");
+    }
+    
+    statusDiv.innerHTML = '<div class="success">Walrus CID saved successfully!</div>';
+    setTimeout(() => {
+      closeWalrusModal();
+      loadLatest(); // Refresh to show the Walrus CID
+    }, 1500);
+    
+  } catch (err) {
+    statusDiv.innerHTML = `<div class="error">Error: ${err.message}</div>`;
+  } finally {
+    saveBtn.disabled = false;
+  }
+}
+
+// Event listeners
+document.getElementById("snapBtn").onclick = snap;
+document.getElementById("verifyBtn").onclick = verify;
+document.getElementById("walrusUploadBtn").onclick = openWalrusModal;
+document.getElementById("closeModal").onclick = closeWalrusModal;
+
+// Global connect wallet button
+const globalConnectBtn = document.getElementById("globalConnectBtn");
+if (globalConnectBtn) {
+  globalConnectBtn.onclick = async () => {
+    const wallets = await detectWallets();
+    if (wallets.length === 0) {
+      alert('No wallets detected. Please install Slush or Suiet.');
+      return;
+    }
+    
+    // Use first available wallet
+    const walletWrap = wallets[0];
+    globalConnectBtn.disabled = true;
+    globalConnectBtn.textContent = 'Connecting...';
+    
+    try {
+      const result = await connectWallet(walletWrap);
+      if (result.ok) {
+        // Event handler will update button
+      } else {
+        alert(`Failed to connect: ${result.error}`);
+        globalConnectBtn.disabled = false;
+        globalConnectBtn.textContent = 'Connect Wallet';
+      }
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+      globalConnectBtn.disabled = false;
+      globalConnectBtn.textContent = 'Connect Wallet';
+    }
+  };
+  
+  // Button is always visible now - check for wallets on load
+  setTimeout(async () => {
+    const wallets = await detectWallets();
+    if (wallets.length > 0) {
+      console.log(`✅ Found ${wallets.length} wallet(s)`);
+    } else {
+      console.warn("⚠ No wallets detected - install Slush or Suiet extension");
+    }
+  }, 1000);
+}
+
+// Modal navigation
+document.getElementById("uploadSignBtn").onclick = async () => {
+  document.getElementById("modalStep0").style.display = "none";
+  document.getElementById("modalStep1").style.display = "block";
+  // Render wallet list when entering step 1
+  setTimeout(async () => {
+    await checkSuiWallet();
+  }, 100);
+};
+
+document.getElementById("manualUploadBtn").onclick = () => {
+  document.getElementById("modalStep0").style.display = "none";
+  document.getElementById("modalStep2").style.display = "block";
+};
+
+// Upload & Sign flow
+document.getElementById("startUploadSignBtn").onclick = startUploadAndSign;
+document.getElementById("saveCidToSnapshotBtn").onclick = saveCidToSnapshot;
+document.getElementById("copyCidBtn").onclick = copyCidToClipboard;
+document.getElementById("retryUploadBtn").onclick = () => {
+  document.getElementById("uploadSignResult").style.display = "none";
+  startUploadAndSign();
+};
+
+// Manual upload flow
+document.getElementById("prepareBtn").onclick = preparePackage;
+document.getElementById("saveCidBtn").onclick = saveWalrusCid;
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+  const modal = document.getElementById("walrusModal");
+  if (event.target == modal) {
+    closeWalrusModal();
+  }
+}
+
+// Price fetching
+let priceFetchInterval = null;
+let currentFetchFreq = 30000; // 30 seconds default
+
+async function fetchPrice(symbol) {
+  try {
+    // Use /api/price for Vercel, fallback to /price for local
+    const priceUrl = BASE ? `${BASE}/price/${symbol}` : `/api/price/${symbol}`;
+    const res = await fetch(priceUrl);
+    if (res.ok) {
+      const data = await res.json();
+      return data.price;
+    }
+  } catch (err) {
+    console.error(`Error fetching price for ${symbol}:`, err);
+  }
+  return null;
+}
+
+async function updatePrices() {
+  const symbols = ['btc', 'sui', 'wal'];
+  for (const symbol of symbols) {
+    const price = await fetchPrice(symbol);
+    if (price !== null) {
+      const priceEl = document.getElementById(`price-${symbol}`);
+      if (priceEl) {
+        priceEl.textContent = `($${price.toFixed(4)})`;
+      }
+      
+      // Update current price if token is selected
+      const tokenSelect = document.getElementById("token");
+      if (tokenSelect && tokenSelect.value === symbol) {
+        const priceInput = document.getElementById("price");
+        const priceDisplay = document.getElementById("currentPriceDisplay");
+        if (priceInput) {
+          priceInput.value = price;
+        }
+        if (priceDisplay) {
+          priceDisplay.textContent = `Current: $${price.toFixed(4)}`;
+        }
+      }
+    }
+  }
+}
+
+function startPriceFetching() {
+  // Clear existing interval
+  if (priceFetchInterval) {
+    clearInterval(priceFetchInterval);
+  }
+  
+  // Fetch immediately
+  updatePrices();
+  
+  // Set up interval
+  priceFetchInterval = setInterval(updatePrices, currentFetchFreq);
+}
+
+// Fetch frequency toggle
+document.querySelectorAll('input[name="fetchFreq"]').forEach(radio => {
+  radio.addEventListener('change', (e) => {
+    currentFetchFreq = parseInt(e.target.value) * 1000; // Convert to milliseconds
+    startPriceFetching();
+  });
+});
+
+// Update price when token changes
+document.getElementById("token").addEventListener('change', async (e) => {
+  const symbol = e.target.value;
+  const price = await fetchPrice(symbol);
+  if (price !== null) {
+    const priceInput = document.getElementById("price");
+    const priceDisplay = document.getElementById("currentPriceDisplay");
+    if (priceInput) {
+      priceInput.value = price;
+    }
+    if (priceDisplay) {
+      priceDisplay.textContent = `Current: $${price.toFixed(4)}`;
+    }
+  }
+});
+
+// Initialize
+loadLatest();
+startPriceFetching();
+</script>
+</body>
+</html>
